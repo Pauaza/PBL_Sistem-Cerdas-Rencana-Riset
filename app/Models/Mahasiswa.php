@@ -18,4 +18,14 @@ class Mahasiswa extends Model
         'username',
         'password'
     ];
+
+    public function histories()
+    {
+        // Parameter: Class, Foreign Key di History, Local Key di Mahasiswa
+        return $this->hasMany(History::class, 'nim_mahasiswa', 'nim');
+    }
+}
+
+{
+    return $this->hasMany(History::class);
 }
