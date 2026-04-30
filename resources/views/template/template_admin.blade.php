@@ -479,7 +479,7 @@
 
         {{-- Logo dari public/assets/img/logo.png --}}
         <div class="sidebar-top">
-            <img src="{{ asset('assets/img/logo.png') }}" alt="SCRR Logo">
+            <img src="{{ asset('assets/img/logo_jti.png') }}" alt="SCRR Logo">
 
         </div>
 

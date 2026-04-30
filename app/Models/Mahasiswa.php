@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Mahasiswa extends Model
+class Mahasiswa extends Authenticatable
 {
     protected $table = 'mahasiswa';
 
     protected $primaryKey = 'nim';
-    public $incrementing = false; // karena string
+    public $incrementing = false;
 
     public $timestamps = false;
 
@@ -21,11 +21,6 @@ class Mahasiswa extends Model
 
     public function histories()
     {
-        // Parameter: Class, Foreign Key di History, Local Key di Mahasiswa
         return $this->hasMany(History::class, 'nim_mahasiswa', 'nim');
     }
-}
-
-{
-    return $this->hasMany(History::class);
 }

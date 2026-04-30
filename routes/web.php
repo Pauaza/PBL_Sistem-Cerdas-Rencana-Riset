@@ -1,10 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+
+// Login Routes
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Protected Routes (contoh)
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard'); // buat file ini nanti
+    })->name('dashboard');
+});
 
 
-
-Route::get('/test-template', function () {
+Route::get('/test-mahasiswa', function () {
     return view('welcome');
 });
 Route::get('/dashboard', function () {
