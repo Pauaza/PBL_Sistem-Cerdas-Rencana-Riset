@@ -17,22 +17,12 @@
         }
 
         :root {
-            --primary: #D97706;
-            --primary-bg: #FEF3C7;
-            --sidebar-w: 88px;
-            --sidebar-bg: #FFFFFF;
-            --content-bg: #F5F0E8;
-            --panel-bg: #FAF4EA;
-            --text-dark: #1A1A1A;
-            --text-muted: #9CA3AF;
-            --border: #E5E7EB;
-            --active-bg: #D97706;
-            --active-fg: #FFFFFF;
-        }
-
-        html,
-        body {
-            height: 100%;
+            --primary-yellow: #FFC107;
+            /* Kuning JTI */
+            --sidebar-bg: #F8FAFC;
+            --text-dark: #333333;
+            --sidebar-w: 240px;
+            /* Diperlebar sesuai gambar */
         }
 
         body {
@@ -43,319 +33,133 @@
             display: flex;
         }
 
-        /* ─────────────────────────────
-           SIDEBAR
-        ───────────────────────────── */
         .sidebar {
             width: var(--sidebar-w);
-            background: #FFFFFF;
+            background: var(--sidebar-bg);
+            border-right: 1px solid #E2E8F0;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 20px 0 16px;
+            padding: 24px 16px;
             position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            z-index: 100;
-            border-right: 1px solid #F1F1F1;
+            height: 100vh;
+            transition: all 0.3s;
         }
 
-        .sidebar.collapsed {
-            width: 0;
-            padding: 0;
-            overflow: hidden;
-            pointer-events: none;
-
-        }
-
-
-        /* global toggle(memunculkan bar) */
-        .global-toggle {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 999;
-
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-
-            border: none;
-            background: #D97706;
-            color: white;
-            font-size: 18px;
-
-            cursor: pointer;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            transition: all 0.2s ease;
-        }
-
-        .global-toggle:hover {
-            transform: scale(1.05);
-        }
-
-
-        /* Logo area */
-
-        /* Toggle sidebar*/
-        /* SIDEBAR TOGGLE */
-        .toggle-sidebar {
-            position: fixed;
-            top: 50%;
-            left: 88px;
-            /* sama dengan sidebar width */
-            transform: translateY(-50%);
-
-            width: 26px;
-            height: 60px;
-
-            background: #FFFFFF;
-            border: 1px solid #eee;
-            border-left: none;
-
-            border-radius: 0 10px 10px 0;
-
-            cursor: pointer;
-            z-index: 200;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* kalau sidebar collapse */
-
-
-
-
-        /* Toggle History Button */
-        .toggle-history {
-            position: fixed;
-            top: 50%;
-            right: 210px;
-            /* sama dengan history width */
-            transform: translateY(-50%);
-
-            width: 26px;
-            height: 60px;
-
-            background: #FAF4EA;
-            border: 1px solid #eee;
-            border-right: none;
-
-            border-radius: 10px 0 0 10px;
-
-            cursor: pointer;
-            z-index: 200;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* kalau history collapse */
-        .history-panel.collapsed~.toggle-history {
-            right: 0;
-        }
-
-        .main-wrapper.full {
-            margin-left: 0;
-        }
-
-        .history-panel.collapsed {
-            width: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-
+        /* Logo Area */
         .sidebar-top {
-            width: 100%;
+            padding-bottom: 30px;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 12px;
-            margin-bottom: 20px;
+            justify-content: center;
         }
 
         .sidebar-top img {
-            width: 32px;
+            width: 140px;
+            /* Sesuaikan ukuran logo JTI SCRR */
+            height: auto;
         }
 
-
-
-
-        /* Nav */
+        /* Navigation Group */
         .nav-group {
-            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            /* lebih renggang */
-            padding: 0 10px;
         }
 
-        .nav-item {
-            width: 100%;
+        .nav-item,
+        .nav-link {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 6px;
-
-            padding: 12px 6px;
-            border-radius: 14px;
-
+            gap: 12px;
+            padding: 12px 16px;
             text-decoration: none;
-            color: #9CA3AF;
-            font-size: 10px;
+            color: var(--text-dark);
+            font-size: 14px;
             font-weight: 500;
-
-            transition: all 0.2s ease;
+            border-radius: 12px;
+            transition: 0.2s;
+            cursor: pointer;
         }
 
-
-        .nav-item i {
+        .nav-item i,
+        .nav-link i {
+            width: 20px;
             font-size: 18px;
         }
 
-        .nav-item:hover {
-            background: #FEF3C7;
-            color: #D97706;
-            transform: translateY(-1px);
+        .nav-item:hover,
+        .nav-link:hover {
+            background: #E2E8F0;
         }
 
         .nav-item.active {
-            background: #D97706;
-            color: #FFFFFF;
-            box-shadow: 0 6px 14px rgba(217, 119, 6, 0.25);
-            transform: scale(0.95);
+            background: var(--primary-yellow);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
         }
 
-        .nav-item.active i {
-            color: #FFFFFF;
-        }
-
-        /* SUB MENU */
-        .has-sub {
-            width: 100%;
-        }
-
-        .nav-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            padding: 12px 6px;
-            border-radius: 14px;
-            color: #9CA3AF;
-            font-size: 10px;
-        }
-
-        .nav-link:hover {
-            background: #FEF3C7;
-            color: #D97706;
-        }
-
-        .arrow {
-            font-size: 10px;
-            transition: transform 0.3s;
-        }
-
-        /* Submenu */
+        /* Submenu Styling - Sesuai Gambar */
         .sub-menu {
             display: none;
+            /* Default sembunyi */
             flex-direction: column;
             gap: 4px;
+            padding-left: 12px;
             margin-top: 4px;
+        }
+
+        .has-sub.active .sub-menu {
+            display: flex;
         }
 
         .sub-item {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            font-size: 10px;
-            color: #6B7280;
+            gap: 12px;
+            padding: 10px 16px;
             text-decoration: none;
-            padding: 6px;
-            border-radius: 8px;
+            color: var(--text-dark);
+            font-size: 13px;
+            border-radius: 25px;
+            /* Lonjong sesuai gambar */
         }
 
-        .sub-item:hover {
-            background: #FEF3C7;
-            color: #D97706;
+        .sub-item.active {
+            background: var(--primary-yellow);
+            font-weight: bold;
         }
 
-        /* ACTIVE SUBMENU */
-        .has-sub.active .sub-menu {
-            display: flex;
+        /* Arrow rotation */
+        .arrow {
+            margin-left: auto;
+            font-size: 12px;
+            transition: 0.3s;
         }
 
         .has-sub.active .arrow {
             transform: rotate(180deg);
         }
 
-
-        /* Footer */
+        /* Footer Sesuai Gambar */
         .sidebar-footer {
-            width: 100%;
-            padding: 0 10px;
-        }
-
-        .user-row {
-            width: 100%;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 16px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 10px;
         }
 
-        .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #F3F4F6;
-        }
-
-
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .avatar i {
-            font-size: 16px;
-            color: #9CA3AF;
-            position: relative;
-            left: 8.5px;
-            top: 5px;
-        }
-
-        .settings-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            font-size: 14px;
-            padding: 4px;
-            border-radius: 7px;
+        .user-info {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background .15s, color .15s;
+            flex-direction: column;
+            font-size: 12px;
         }
 
-        .settings-btn:hover {
-            background: var(--border);
-            color: var(--primary);
+        .user-info .name {
+            font-weight: bold;
+        }
+
+        .user-info .id {
+            color: #888;
         }
 
         /* ─────────────────────────────
@@ -366,6 +170,7 @@
             flex: 1;
             display: flex;
             min-height: 100vh;
+
         }
 
         .content-area {
@@ -476,107 +281,65 @@
 
     {{-- ═══════════ SIDEBAR ═══════════ --}}
     <aside class="sidebar">
-
-        {{-- Logo dari public/assets/img/logo.png --}}
         <div class="sidebar-top">
             <img src="{{ asset('assets/img/logo_jti.png') }}" alt="SCRR Logo">
-
         </div>
 
-        {{-- Navigation --}}
         <nav class="nav-group">
-
-            {{-- Beranda --}}
-            <a href="{{ route('dashboard') }}" class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                <i class="fa-solid fa-house"></i>
+            <a href="{{ route('admin.dashboard') }}"
+                class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <i class="fa-solid fa-table-cells-large"></i>
                 <span>Beranda</span>
             </a>
 
-            {{-- Olah Data --}}
-            <div class="nav-item has-sub" id="menuOlahData">
+            {{-- Olah Data Dropdown --}}
+            <div class="has-sub" id="menuOlahData">
                 <div class="nav-link">
                     <i class="fa-solid fa-database"></i>
-                    <span>OlahData</span>
+                    <span>Olah Data</span>
                     <i class="fa-solid fa-chevron-down arrow"></i>
                 </div>
-
                 <div class="sub-menu">
-                    <a href="#" class="sub-item">
+                    {{-- Navigasi ke Manajemen Dosen --}}
+                    <a href="{{ route('admin.manajemen_dosen') }}"
+                        class="sub-item {{ request()->is('admin/manajemen_dosen*') ? 'active' : '' }}">
                         <i class="fa-solid fa-database"></i>
                         <span>Dosen</span>
                     </a>
-
-                    <a href="#" class="sub-item">
+                    {{-- Navigasi ke Manajemen Mahasiswa --}}
+                    <a href="{{ route('admin.manajemen_mahasiswa') }}"
+                        class="sub-item {{ request()->is('admin/manajemen_mahasiswa*') ? 'active' : '' }}">
                         <i class="fa-solid fa-database"></i>
                         <span>Mahasiswa</span>
                     </a>
                 </div>
             </div>
-
         </nav>
 
-        {{-- Footer: avatar + gear --}}
         <div class="sidebar-footer">
-            <div class="user-row">
-                <div class="avatar">
-                    @auth
-                        @if (auth()->user()->avatar)
-                            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="avatar">
-                        @else
-                            <i class="fa-solid fa-user"></i>
-                        @endif
-                    @else
-                        <i class="fa-solid fa-user"></i>
-                    @endauth
-                </div>
-                <button class="settings-btn" title="Pengaturan">
-                    <i class="fa-solid fa-gear"></i>
-                </button>
+            <div class="avatar" style="width: 40px; height: 40px;">
+                <i class="fa-solid fa-circle-user" style="font-size: 40px;"></i>
             </div>
+            <div class="user-info">
+                <span class="name">Admin JTI</span>
+                <span class="id">1234567890</span>
+            </div>
+            <i class="fa-solid fa-gear" style="margin-left: auto; cursor: pointer;"></i>
         </div>
+    </aside>
+
 
     </aside>
 
     {{-- ═══════════ MAIN WRAPPER ═══════════ --}}
     <div class="main-wrapper">
 
-        {{-- toggle untuk memunculkan bar --}}
-        <button class="toggle-sidebar" id="toggleSidebar">
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
 
         {{-- Content --}}
         <main class="content-area">
             @yield('content')
         </main>
 
-        {{-- History Panel --}}
-        <aside class="history-panel">
-            <div class="history-header">
-                <button class="toggle-history" id="toggleHistory">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-
-                <span>Histori Rekomendasi</span>
-            </div>
-
-            <div class="history-list">
-                @isset($histories)
-                    @forelse($histories as $item)
-                        <a href="{{ route('rekomendasi.show', $item->id) }}" class="history-item"
-                            title="{{ $item->judul }}">
-                            {{ Str::limit($item->judul, 34) }}
-                        </a>
-                    @empty
-                        <span style="font-size:11px;color:#aaa;">Belum ada histori.</span>
-                    @endforelse
-                @else
-                    <a href="#" class="history-item">Sistem rekomendasi pencarian j…</a>
-                    <a href="#" class="history-item">Pemanfaatan teknologi hijau unt…</a>
-                    <a href="#" class="history-item">Analisis data dashboard pemant…</a>
-                @endisset
-            </div>
-        </aside>
 
     </div>
 
@@ -585,50 +348,32 @@
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-
-                const sidebar = document.querySelector('.sidebar');
-                const historyPanel = document.querySelector('.history-panel');
-                const mainWrapper = document.querySelector('.main-wrapper'); // 🔥 INI YANG KURANG
-
-                const toggleSidebar = document.getElementById('toggleSidebar');
-                const toggleHistory = document.getElementById('toggleHistory');
-
-                const sidebarIcon = toggleSidebar.querySelector('i');
-                const historyIcon = toggleHistory.querySelector('i');
-
-                // SIDEBAR
-                toggleSidebar.addEventListener('click', () => {
-                    sidebar.classList.toggle('collapsed');
-                    mainWrapper.classList.toggle('full'); // sekarang aman
-
-                    if (sidebar.classList.contains('collapsed')) {
-                        sidebarIcon.classList.replace('fa-chevron-left', 'fa-chevron-right');
-                        toggleSidebar.style.left = '0';
-                    } else {
-                        sidebarIcon.classList.replace('fa-chevron-right', 'fa-chevron-left');
-                        toggleSidebar.style.left = '88px';
-                    }
-                });
-
-                // HISTORY
-                toggleHistory.addEventListener('click', () => {
-                    historyPanel.classList.toggle('collapsed');
-
-                    if (historyPanel.classList.contains('collapsed')) {
-                        historyIcon.classList.replace('fa-chevron-right', 'fa-chevron-left');
-                        toggleHistory.style.right = '0';
-                    } else {
-                        historyIcon.classList.replace('fa-chevron-left', 'fa-chevron-right');
-                        toggleHistory.style.right = '210px';
-                    }
-                });
-
                 const menuOlahData = document.getElementById('menuOlahData');
 
-                menuOlahData.addEventListener('click', () => {
-                    menuOlahData.classList.toggle('active');
-                });
+                // Pastikan mengklik area nav-link di dalam has-sub
+                if (menuOlahData) {
+                    menuOlahData.querySelector('.nav-link').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        menuOlahData.classList.toggle('active');
+                    });
+                }
 
+                // Toggle Sidebar (Collapse)
+                const toggleSidebar = document.getElementById('toggleSidebar');
+                const sidebar = document.querySelector('.sidebar');
+                const mainWrapper = document.querySelector('.main-wrapper');
+
+                if (toggleSidebar) {
+                    toggleSidebar.addEventListener('click', () => {
+                        sidebar.classList.toggle('collapsed');
+                        mainWrapper.classList.toggle('full');
+
+                        // Ubah icon
+                        const icon = toggleSidebar.querySelector('i');
+                        icon.classList.toggle('fa-chevron-left');
+                        icon.classList.toggle('fa-chevron-right');
+                    });
+                }
             });
         </script>
     @endpush

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,23 +15,16 @@
             margin: 0;
             padding: 0;
         }
+
         :root {
-            --primary: #D97706;
-            --primary-bg: #FEF3C7;
-            --sidebar-w: 88px;
-            --sidebar-bg: #FFFFFF;
+            --primary-yellow: #FFC107; /* Kuning JTI */
+            --sidebar-bg: #F8FAFC;
+            --text-dark: #333333;
+            --sidebar-w: 240px; /* Lebar sesuai template admin baru */
             --content-bg: #F5F0E8;
             --panel-bg: #FAF4EA;
-            --text-dark: #1A1A1A;
-            --text-muted: #9CA3AF;
-            --border: #E5E7EB;
-            --active-bg: #D97706;
-            --active-fg: #FFFFFF;
         }
-        html,
-        body {
-            height: 100%;
-        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--content-bg);
@@ -38,57 +32,114 @@
             min-height: 100vh;
             display: flex;
         }
+
         /* ─────────────────────────────
-           SIDEBAR
+            SIDEBAR (Sama dengan Admin)
         ───────────────────────────── */
         .sidebar {
             width: var(--sidebar-w);
-            background: #FFFFFF;
+            background: var(--sidebar-bg);
+            border-right: 1px solid #E2E8F0;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 20px 0 16px;
+            padding: 24px 16px;
             position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
+            height: 100vh;
             z-index: 100;
-            border-right: 1px solid #F1F1F1;
+            transition: all 0.3s ease;
         }
+
         .sidebar.collapsed {
             width: 0;
             padding: 0;
             overflow: hidden;
             pointer-events: none;
         }
-        /* global toggle(memunculkan bar) */
-        .global-toggle {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 999;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: none;
-            background: #D97706;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+
+        .sidebar-top {
+            padding-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .sidebar-top img {
+            width: 140px;
+            height: auto;
+        }
+
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .nav-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
+            gap: 12px;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 12px;
+            transition: 0.2s;
         }
-        .global-toggle:hover {
-            transform: scale(1.05);
+
+        .nav-item i {
+            width: 20px;
+            font-size: 18px;
         }
-        /* SIDEBAR TOGGLE */
+
+        .nav-item:hover {
+            background: #E2E8F0;
+        }
+
+        .nav-item.active {
+            background: var(--primary-yellow);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+        }
+
+        /* ─────────────────────────────
+            FOOTER SIDEBAR
+        ───────────────────────────── */
+        .sidebar-footer {
+            border-top: 1px solid #E2E8F0;
+            padding-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+        }
+
+        .user-info .name { font-weight: bold; }
+        .user-info .id { color: #888; }
+
+        /* ─────────────────────────────
+            MAIN AREA & TOGGLES
+        ───────────────────────────── */
+        .main-wrapper {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        .main-wrapper.full {
+            margin-left: 0;
+        }
+
         .toggle-sidebar {
             position: fixed;
             top: 50%;
-            left: 88px;
+            left: 240px; /* Sesuai lebar sidebar */
             transform: translateY(-50%);
             width: 26px;
             height: 60px;
@@ -101,8 +152,45 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: left 0.3s ease;
         }
-        /* Toggle History Button */
+
+        .content-area {
+            flex: 1;
+            padding: 40px 44px;
+            background: var(--content-bg);
+        }
+
+        /* ─────────────────────────────
+            HISTORY PANEL (Kanan)
+        ───────────────────────────── */
+        .history-panel {
+            width: 210px;
+            background: var(--panel-bg);
+            border-left: 1px solid #EDE8DF;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .history-panel.collapsed {
+            width: 0;
+            padding: 0;
+            overflow: hidden;
+            border-left: none;
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
         .toggle-history {
             position: fixed;
             top: 50%;
@@ -119,330 +207,146 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: right 0.3s ease;
         }
-        .history-panel.collapsed~.toggle-history {
-            right: 0;
-        }
-        .main-wrapper.full {
-            margin-left: 0;
-        }
-        .history-panel.collapsed {
-            width: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        .sidebar-top {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 12px;
-            margin-bottom: 20px;
-        }
-        .sidebar-top img {
-            width: 32px;
-        }
-        /* Nav */
-        .nav-group {
-            width: 100%;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            padding: 0 10px;
-        }
-        .nav-item {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 12px 6px;
-            border-radius: 14px;
-            text-decoration: none;
-            color: #9CA3AF;
-            font-size: 10px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        .nav-item i {
-            font-size: 18px;
-        }
-        .nav-item:hover {
-            background: #FEF3C7;
-            color: #D97706;
-            transform: translateY(-1px);
-        }
-        .nav-item.active {
-            background: #D97706;
-            color: #FFFFFF;
-            box-shadow: 0 6px 14px rgba(217, 119, 6, 0.25);
-            transform: scale(0.95);
-        }
-        .nav-item.active i {
-            color: #FFFFFF;
-        }
-        /* Footer */
-        .sidebar-footer {
-            width: 100%;
-            padding: 0 10px;
-        }
-        .user-row {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #F3F4F6;
-        }
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .avatar i {
-            font-size: 16px;
-            color: #9CA3AF;
-            position: relative;
-            left: 8.5px;
-            top: 5px;
-        }
-        .settings-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            font-size: 14px;
-            padding: 4px;
-            border-radius: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background .15s, color .15s;
-        }
-        .settings-btn:hover {
-            background: var(--border);
-            color: var(--primary);
-        }
-        /* ─────────────────────────────
-           MAIN AREA
-        ───────────────────────────── */
-        .main-wrapper {
-            margin-left: var(--sidebar-w);
-            flex: 1;
-            display: flex;
-            min-height: 100vh;
-        }
-        .content-area {
-            flex: 1;
-            padding: 40px 44px;
-            overflow-y: auto;
-            background: var(--content-bg);
-        }
-        /* ─────────────────────────────
-           HISTORY PANEL (right)
-        ───────────────────────────── */
-        .history-panel {
-            width: 210px;
-            flex-shrink: 0;
-            background: var(--panel-bg);
-            border-left: 1px solid #EDE8DF;
-            padding: 24px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            min-height: 100vh;
-        }
-        .history-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 13px;
-            font-weight: 700;
-        }
-        .history-header .circle-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid var(--text-dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .history-header .circle-icon i {
-            font-size: 9px;
-            color: var(--text-dark);
-        }
+
         .history-list {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 4px;
         }
+
         .history-item {
             font-size: 12px;
             color: #B45309;
-            padding: 5px 6px;
-            border-radius: 6px;
-            cursor: pointer;
-            white-space: nowrap;
+            padding: 8px 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background .15s;
+            display: block;
             overflow: hidden;
             text-overflow: ellipsis;
-            text-decoration: none;
-            display: block;
-            transition: background .15s;
-            line-height: 1.4;
+            white-space: nowrap;
         }
+
         .history-item:hover {
             background: rgba(217, 119, 6, .08);
-        }
-        /* ─────────────────────────────
-           RESPONSIVE
-        ───────────────────────────── */
-        @media (max-width: 960px) {
-            .history-panel {
-                display: none;
-            }
-        }
-        @media (max-width: 540px) {
-            :root {
-                --sidebar-w: 56px;
-            }
-            .nav-item span {
-                display: none;
-            }
-            .content-area {
-                padding: 24px 18px;
-            }
-            .sidebar,
-            .history-panel,
-            .main-wrapper {
-                transition: all 0.3s ease;
-            }
         }
     </style>
     @stack('styles')
 </head>
+
 <body>
-    {{-- ═══════════ SIDEBAR ═══════════ --}}
+
+    {{-- SIDEBAR --}}
     <aside class="sidebar">
-        {{-- Logo dari public/assets/img/logo.png --}}
         <div class="sidebar-top">
-            <!-- Perubahan dilakukan di sini -->
-            <img src="{{ asset('assets/img/logo_jti.png') }}" alt="SCRR Logo" style="width: 42px; height: 42px; object-fit: contain;">
+            <img src="{{ asset('assets/img/logo_jti.png') }}" alt="SCRR Logo">
         </div>
-        {{-- Navigation --}}
+
         <nav class="nav-group">
-            <a href="{{ route('dashboard') }}" class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <a href="{{ route('mahasiswa.dashboard') }}" 
+               class="nav-item {{ request()->routeIs('mahasiswa.dashboard') ? 'active' : '' }}">
                 <i class="fa-solid fa-house"></i>
                 <span>Beranda</span>
             </a>
-            <a href="{{ route('rekomendasi.index') }}"
-                class="nav-item {{ request()->routeIs('rekomendasi.*') ? 'active' : '' }}">
+
+            <a href="{{ route('mahasiswa.rekomendasi') }}"
+                class="nav-item {{ request()->routeIs('mahasiswa.rekomendasi.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-lightbulb"></i>
-                <span>Rekomen&shy;dasi</span>
+                <span>Rekomendasi</span>
             </a>
         </nav>
-        {{-- Footer: avatar + gear --}}
+
         <div class="sidebar-footer">
-            <div class="user-row">
-                <div class="avatar">
-                    @auth
-                        @if (auth()->user()->avatar)
-                            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="avatar">
-                        @else
-                            <i class="fa-solid fa-user"></i>
-                        @endif
-                    @else
-                        <i class="fa-solid fa-user"></i>
-                    @endauth
-                </div>
-                <button class="settings-btn" title="Pengaturan">
-                    <i class="fa-solid fa-gear"></i>
-                </button>
+            <div class="avatar" style="width: 40px; height: 40px;">
+                <i class="fa-solid fa-circle-user" style="font-size: 40px;"></i>
             </div>
+            <div class="user-info">
+                <span class="name">{{ Auth::user()->name ?? 'Mahasiswa' }}</span>
+                <span class="id">{{ Auth::user()->username ?? '12345678' }}</span>
+            </div>
+            <i class="fa-solid fa-gear" style="margin-left: auto; cursor: pointer;"></i>
         </div>
     </aside>
-    {{-- ═══════════ MAIN WRAPPER ═══════════ --}}
+
     <div class="main-wrapper">
-        {{-- toggle untuk memunculkan bar --}}
+        {{-- Tombol Toggle Sidebar --}}
         <button class="toggle-sidebar" id="toggleSidebar">
             <i class="fa-solid fa-chevron-left"></i>
         </button>
-        {{-- Content --}}
+
         <main class="content-area">
             @yield('content')
         </main>
-        {{-- History Panel --}}
+
+        {{-- HISTORY PANEL --}}
         <aside class="history-panel">
             <div class="history-header">
-                <button class="toggle-history" id="toggleHistory">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
                 <span>Histori Rekomendasi</span>
             </div>
             <div class="history-list">
                 @isset($histories)
                     @forelse($histories as $item)
-                        <a href="{{ route('rekomendasi.show', $item->id) }}" class="history-item"
-                            title="{{ $item->judul }}">
-                            {{ Str::limit($item->judul, 34) }}
+                        <a href="{{ route('rekomendasi.show', $item->id) }}" class="history-item" title="{{ $item->judul }}">
+                            {{ Str::limit($item->judul, 25) }}
                         </a>
                     @empty
                         <span style="font-size:11px;color:#aaa;">Belum ada histori.</span>
                     @endforelse
                 @else
-                    <a href="#" class="history-item">Sistem rekomendasi pencarian j…</a>
-                    <a href="#" class="history-item">Pemanfaatan teknologi hijau unt…</a>
-                    <a href="#" class="history-item">Analisis data dashboard pemant…</a>
+                    <a href="#" class="history-item">Sistem rekomendasi pencarian...</a>
+                    <a href="#" class="history-item">Pemanfaatan teknologi hijau...</a>
                 @endisset
             </div>
         </aside>
+
+        {{-- Tombol Toggle History --}}
+        <button class="toggle-history" id="toggleHistory">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
     </div>
-    @stack('scripts')
+
     @push('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const sidebar = document.querySelector('.sidebar');
-                const historyPanel = document.querySelector('.history-panel');
-                const mainWrapper = document.querySelector('.main-wrapper');
-                const toggleSidebar = document.getElementById('toggleSidebar');
-                const toggleHistory = document.getElementById('toggleHistory');
-                const sidebarIcon = toggleSidebar.querySelector('i');
-                const historyIcon = toggleHistory.querySelector('i');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const historyPanel = document.querySelector('.history-panel');
+            const mainWrapper = document.querySelector('.main-wrapper');
+            
+            const toggleSidebar = document.getElementById('toggleSidebar');
+            const toggleHistory = document.getElementById('toggleHistory');
 
-                // SIDEBAR
-                toggleSidebar.addEventListener('click', () => {
-                    sidebar.classList.toggle('collapsed');
-                    mainWrapper.classList.toggle('full');
-                    if (sidebar.classList.contains('collapsed')) {
-                        sidebarIcon.classList.replace('fa-chevron-left', 'fa-chevron-right');
-                        toggleSidebar.style.left = '0';
-                    } else {
-                        sidebarIcon.classList.replace('fa-chevron-right', 'fa-chevron-left');
-                        toggleSidebar.style.left = '88px';
-                    }
-                });
-
-                // HISTORY
-                toggleHistory.addEventListener('click', () => {
-                    historyPanel.classList.toggle('collapsed');
-                    if (historyPanel.classList.contains('collapsed')) {
-                        historyIcon.classList.replace('fa-chevron-right', 'fa-chevron-left');
-                        toggleHistory.style.right = '0';
-                    } else {
-                        historyIcon.classList.replace('fa-chevron-left', 'fa-chevron-right');
-                        toggleHistory.style.right = '210px';
-                    }
-                });
+            // SIDEBAR TOGGLE
+            toggleSidebar.addEventListener('click', () => {
+                sidebar.classList.toggle('collapsed');
+                mainWrapper.classList.toggle('full');
+                
+                const icon = toggleSidebar.querySelector('i');
+                if (sidebar.classList.contains('collapsed')) {
+                    icon.classList.replace('fa-chevron-left', 'fa-chevron-right');
+                    toggleSidebar.style.left = '0';
+                } else {
+                    icon.classList.replace('fa-chevron-right', 'fa-chevron-left');
+                    toggleSidebar.style.left = '240px';
+                }
             });
-        </script>
+
+            // HISTORY TOGGLE
+            toggleHistory.addEventListener('click', () => {
+                historyPanel.classList.toggle('collapsed');
+                const icon = toggleHistory.querySelector('i');
+                
+                if (historyPanel.classList.contains('collapsed')) {
+                    icon.classList.replace('fa-chevron-right', 'fa-chevron-left');
+                    toggleHistory.style.right = '0';
+                } else {
+                    icon.classList.replace('fa-chevron-left', 'fa-chevron-right');
+                    toggleHistory.style.right = '210px';
+                }
+            });
+        });
+    </script>
     @endpush
     @stack('scripts')
 </body>
