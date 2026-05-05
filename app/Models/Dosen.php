@@ -19,13 +19,13 @@ class Dosen extends Model
     //  Relasi ke lab
     public function lab()
     {
-        return $this->belongsTo(Lab_Dosen::class, 'id_lab');
+        return $this->belongsTo(LabDosen::class, 'id_lab');
     }
 
     //  Relasi ke penelitian
     public function penelitian()
     {
-        return $this->hasMany(PenelitianDosen::class, 'nidn');
+        return $this->hasMany(PenelitianDosen::class, 'id_dosen');
     }
 
     //  Relasi ke skripsi (pembimbing 1)

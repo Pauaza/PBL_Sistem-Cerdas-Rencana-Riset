@@ -80,14 +80,12 @@ return [
 
         'mahasiswa' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Mahasiswa::class,   // sesuaikan nama model
-            'table' => 'rencana_riset_mahasiswa',     // jika perlu
+            'model' => App\Models\Mahasiswa::class,   // sesuaikan nama model   
         ],
 
         'admin' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
-            'table' => 'rencana_riset_admin',
         ],
     ],
 

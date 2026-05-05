@@ -28,10 +28,9 @@ class LoginController extends Controller
             'username' => $request->username,
             'password' => $request->password,
         ], $request->boolean('remember'))) {
-            
+
             $request->session()->regenerate();
-            return redirect()->intended('test-mahasiswa')
-                             ->with('success', 'Selamat datang, Mahasiswa!');
+            return redirect()->route('mahasiswa.dashboard');
         }
 
         // Jika gagal, coba login sebagai admin
@@ -39,10 +38,9 @@ class LoginController extends Controller
             'username' => $request->username,
             'password' => $request->password,
         ], $request->boolean('remember'))) {
-            
+
             $request->session()->regenerate();
-            return redirect()->intended('test-admin')
-                             ->with('success', 'Selamat datang, Admin!');
+            return redirect()->route('admin.dashboard');
         }
 
         // Jika keduanya gagal
@@ -53,7 +51,9 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('mahasiswa')->logout();
+        Auth::guard('admin')->logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

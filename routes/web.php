@@ -3,8 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\admin\ManajemenDosenController;
+use App\Http\Controllers\admin\ManajemenMhsController;
 
-// Login Routes
+
+// Perbaikan Typo: Route::get (bukan Route: :get)
+Route::get('/', function () {
+    return view('auth.login');
+});
+
+// --- Login Routes ---
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -21,18 +29,38 @@ Route::middleware('auth')->group(function () {
         return view('dashboard'); // buat file ini nanti
     })->name('dashboard');
 });
+// --- Protected Routes (Hanya bisa diakses jika sudah login) ---
+Route::middleware('auth:mahasiswa,admin')->group(function () {
 
+    // ================= MAHASISWA =================
+    Route::prefix('mahasiswa')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('mahasiswa.dashboard'); 
+        })->name('mahasiswa.dashboard');
 
-//coba admin
-Route::get('/test-admin', function () {
-    return view('welcome_admin');
+        Route::get('/rekomendasi', function () {
+            return view('mahasiswa.rekomendasi'); 
+        })->name('mahasiswa.rekomendasi');
+    });
+
+    // ================= ADMIN =================
+    Route::prefix('admin')->group(function () {
+
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        })->name('admin.dashboard');
+
+        Route::get('/manajemen-dosen', [ManajemenDosenController::class, 'index'])
+            ->name('admin.manajemen_dosen');
+
+        Route::get('/manajemen-mahasiswa', function () {
+            return view('admin.manajemen_mahasiswa');
+        })->name('admin.manajemen_mahasiswa');
+
+        Route::get('/profil', function () {
+            return view('admin.profil');
+        })->name('admin.profil');
+
+    });
+
 });
-Route::get('/dashboard', function () {
-    return view('welcome_admin'); // sementara pakai ini dulu
-})->name('dashboard');
-Route::get('/rekomendasi', function () {
-    return view('welcome_admin'); // sementara
-})->name('rekomendasi.index');
-Route::get('/history', function () {
-    return view('welcome_admin'); // sementara
-})->name('history.index');
