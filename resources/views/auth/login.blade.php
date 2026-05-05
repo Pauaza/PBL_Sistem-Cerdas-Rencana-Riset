@@ -49,16 +49,16 @@
                     <span class="text-amber-300">Rencana Riset</span>
                 </h1>
 
-                <p class="text-gray-600 mt-6 text-xl max-w-md leading-relaxed">
+                <p class="text-gray-600 mt-3 text-xl max-w-md leading-relaxed">
                     Temukan Judul Skripsi dan Pembimbing yang Tepat untuk Memulai
                 </p>
             </div>
 
-            <div class="relative inline-block mt-8 mx-auto lg:mx-0">
+            <div class="relative inline-block mt-1 mx-auto lg:mx-0">
                 <div class="absolute inset-0 bg-decorative -translate-x-3 -translate-y-2"></div>
 
-                <div class="relative bg-white border-2 border-white rounded-[2.5rem] p-6 shadow-sm z-10 overflow-hidden flex items-center justify-center"
-                    style="width: 360px; height: 240px;">
+                <div class="relative bg-white border-2 border-white rounded-[2.5rem] p-6 shadow-sm z-10 overflow-hidden flex items-start justify-center pt-2"
+                    style="width: 390px; height: 270px;">
                     <img src="{{ asset('assets/img/logo_jti.png') }}" alt="Logo JTI"
                         class="w-full h-full object-contain">
                 </div>
