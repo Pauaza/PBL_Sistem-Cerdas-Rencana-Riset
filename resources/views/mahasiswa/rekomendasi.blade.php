@@ -53,7 +53,7 @@ tailwind.config = {
         </p>
 
         <!-- FORM -->
-        <form action="{{ route('rekomendasi.hasil') }}" method="POST"
+        <form action="{{ route('mahasiswa.hasil_rekomendasi') }}" method="POST"
               class="mt-10 bg-white/80 backdrop-blur-md p-10 rounded-2xl shadow-md space-y-8">
 
             @csrf

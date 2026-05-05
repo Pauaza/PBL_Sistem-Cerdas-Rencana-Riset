@@ -17,30 +17,30 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/', function () { return view('mahasiswa.beranda_mahasiswa');});
-Route::get('/rekomendasi', [MahasiswaController::class, 'rekomendasi'])
-    ->name('rekomendasi.index');
+// Route::get('/', function () { return view('mahasiswa.beranda_mahasiswa');});
 
-Route::post('/hasil-rekomendasi', [MahasiswaController::class, 'hasil'])
-    ->name('rekomendasi.hasil');
-    
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard'); // buat file ini nanti
-    })->name('dashboard');
-});
+
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('dashboard'); // buat file ini nanti
+//     })->name('dashboard');
+// });
 // --- Protected Routes (Hanya bisa diakses jika sudah login) ---
 Route::middleware('auth:mahasiswa,admin')->group(function () {
 
     // ================= MAHASISWA =================
     Route::prefix('mahasiswa')->group(function () {
         Route::get('/dashboard', function () {
-            return view('mahasiswa.dashboard'); 
+            return view('mahasiswa.dashboard');
         })->name('mahasiswa.dashboard');
 
-        Route::get('/rekomendasi', function () {
-            return view('mahasiswa.rekomendasi'); 
-        })->name('mahasiswa.rekomendasi');
+
+        Route::post('/hasil-rekomendasi', [MahasiswaController::class, 'hasil'])
+            ->name('mahasiswa.hasil_rekomendasi');
+
+        Route::get('/rekomendasi', [MahasiswaController::class, 'rekomendasi'])
+            ->name('mahasiswa.rekomendasi');
     });
 
     // ================= ADMIN =================
@@ -60,7 +60,5 @@ Route::middleware('auth:mahasiswa,admin')->group(function () {
         Route::get('/profil', function () {
             return view('admin.profil');
         })->name('admin.profil');
-
     });
-
 });

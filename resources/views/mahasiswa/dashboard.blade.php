@@ -1,27 +1,86 @@
 @extends('template.template_user')
 
-@section('title', 'Welcome')
+@section('title', 'Beranda_Mahsiswa')
+
+@push('styles')
+<!-- Tailwind khusus halaman ini -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                'scrr-orange': '#F18F01',
+            }
+        }
+    }
+}
+</script>
+
+<style>
+/* 🔥 BACKGROUND SAMA PERSIS LOGIN */
+.content-area {
+    background: radial-gradient(circle at top right, #FEF3C7 0%, #F9FBFF 40%) !important;
+}
+
+/* full tinggi */
+.full-height {
+    min-height: calc(100vh - 80px);
+}
+</style>
+@endpush
+
 
 @section('content')
-    <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-        <h1 style="margin-bottom: 10px;">Halaman Welcome 👋</h1>
-        <p>Ini adalah halaman percobaan untuk memastikan template sidebar sudah berfungsi dengan baik.</p>
 
-        <hr style="margin: 20px 0;">
+<div class="flex items-center justify-between full-height px-12">
 
-        <h3>Checklist:</h3>
-        <ul style="margin-top: 10px; padding-left: 18px;">
-            <li>✔ Sidebar muncul di kiri</li>
-            <li>✔ Menu aktif (highlight) sesuai route</li>
-            <li>✔ Content tampil di tengah</li>
-            <li>✔ Panel histori muncul di kanan</li>
-        </ul>
+    <!-- KIRI -->
+    <div class="w-1/2">
 
-        <div style="margin-top: 20px;">
-            <a href="{{ route('mahasiswa.dashboard') }}" 
-               style="display:inline-block;padding:10px 16px;background:#E07B00;color:white;border-radius:8px;text-decoration:none;">
-                Ke Dashboard
-            </a>
-        </div>
+        <h1 class="text-5xl font-bold text-gray-800 leading-tight">
+            Selamat Datang di Sistem 
+            <span class="text-scrr-orange">
+                Cerdas Rencana Riset (SCRR)
+            </span>
+        </h1>
+
+        <p class="text-gray-600 mt-6 text-lg max-w-xl leading-relaxed">
+            Platform berbasis web yang membantu mahasiswa menentukan judul skripsi
+            dan dosen pembimbing secara otomatis menggunakan metode Machine Learning.
+        </p>
+
+        <a href="{{ route('mahasiswa.rekomendasi') }}"
+        class="mt-8 px-6 py-3 rounded-full text-white font-semibold shadow-lg 
+        bg-gradient-to-r from-orange-400 to-orange-600 hover:scale-105 transition flex items-center gap-2 w-fit">
+            
+            Mulai Rekomendasi ✨
+            <i class="fas fa-sparkles"></i>
+        </a>
+
     </div>
+
+    <!-- KANAN -->
+    <div class="w-1/2 flex justify-center">
+
+        <div class="relative">
+
+            <div class="absolute inset-0 bg-[#FDE68A] rounded-[2.5rem] -translate-x-3 -translate-y-2 scale-110 -rotate-3"></div>
+
+            <!-- CARD -->
+            <div class="relative bg-white border-2 border-white rounded-[2.5rem] p-6 shadow-sm z-10 flex items-center justify-center"
+                style="width: 460px; height: 340px;">
+
+                <img src="{{ asset('assets/img/riset.jpg') }}"
+                    class="w-full h-full object-contain">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 @endsection

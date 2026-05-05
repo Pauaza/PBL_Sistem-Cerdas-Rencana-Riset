@@ -162,7 +162,7 @@ tailwind.config = {
                 Download Rekomendasi
             </button>
 
-            <a href="{{ route('rekomendasi.index') }}"
+            <a href="{{ route('mahasiswa.rekomendasi') }}"
                class="px-6 py-3 rounded-full text-white font-semibold 
                bg-gradient-to-r from-orange-400 to-orange-600 hover:scale-105 transition">
 
