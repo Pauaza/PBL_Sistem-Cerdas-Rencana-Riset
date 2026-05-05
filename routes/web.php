@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\admin\ManajemenDosenController;
 use App\Http\Controllers\admin\ManajemenMhsController;
 
@@ -16,6 +17,18 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/', function () { return view('mahasiswa.beranda_mahasiswa');});
+Route::get('/rekomendasi', [MahasiswaController::class, 'rekomendasi'])
+    ->name('rekomendasi.index');
+
+Route::post('/hasil-rekomendasi', [MahasiswaController::class, 'hasil'])
+    ->name('rekomendasi.hasil');
+    
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard'); // buat file ini nanti
+    })->name('dashboard');
+});
 // --- Protected Routes (Hanya bisa diakses jika sudah login) ---
 Route::middleware('auth:mahasiswa,admin')->group(function () {
 
