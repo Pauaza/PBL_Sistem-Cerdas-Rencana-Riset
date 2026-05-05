@@ -34,7 +34,7 @@ tailwind.config = {
 
 @section('content')
 
-<div class="full-height px-12 py-10 font-sans flex justify-center">
+<div class="full-height px-12 pt-6 pb-10 font-sans flex justify-center items-start">
 
     <!-- FORM WRAPPER (BIAR TENGAH & FULL) -->
     <div class="w-full max-w-4xl">
@@ -44,7 +44,7 @@ tailwind.config = {
             Mulai Rekomendasi
         </h1>
 
-        <h2 class="text-2xl font-bold text-orange-500 mt-2">
+        <h2 class="text-4xl font-bold text-orange-500 mt-2">
             Skripsi Anda
         </h2>
 

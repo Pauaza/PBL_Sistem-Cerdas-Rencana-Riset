@@ -37,12 +37,12 @@
     </style>
 </head>
 
-<body class="gradient-bg min-h-screen flex items-center px-12">
+<body class="gradient-bg min-h-screen flex items-center justify-center px-4 lg:px-8">
 
-    <div class="flex w-full max-w-7xl mx-auto items-center justify-between gap-18">
+    <div class="flex flex-col lg:flex-row w-full max-w-5xl mx-auto items-center justify-center gap-6 lg:gap-10">
 
         <!-- KIRI -->
-        <div class="w-1/2">
+        <div class="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left lg:pl-16 lg:pr-6">
             <div class="mb-12">
                 <h1 class="text-6xl font-bold leading-tight tracking-tight">
                     <span class="text-scrr-orange">Sistem Cerdas</span><br>
@@ -54,7 +54,7 @@
                 </p>
             </div>
 
-            <div class="relative inline-block mt-8 ml-4">
+            <div class="relative inline-block mt-8 mx-auto lg:mx-0">
                 <div class="absolute inset-0 bg-decorative -translate-x-3 -translate-y-2"></div>
 
                 <div class="relative bg-white border-2 border-white rounded-[2.5rem] p-6 shadow-sm z-10 overflow-hidden flex items-center justify-center"
@@ -77,7 +77,7 @@
         </div>
 
         <!-- KANAN (LOGIN) -->
-        <div class="w-1/2 flex justify-center   items-center">
+        <div class="w-full lg:w-1/2 flex justify-center mt-10 lg:mt-0">
             <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md p-10">
                 <h2 class="text-3xl font-bold text-gray-800 mb-8">Selamat Datang</h2>
 

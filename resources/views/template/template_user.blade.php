@@ -252,7 +252,7 @@
             </a>
 
             <a href="{{ route('mahasiswa.rekomendasi') }}"
-                class="nav-item {{ request()->routeIs('mahasiswa.rekomendasi.*') ? 'active' : '' }}">
+            class="nav-item {{ request()->routeIs('mahasiswa.rekomendasi') ? 'active' : '' }}">
                 <i class="fa-solid fa-lightbulb"></i>
                 <span>Rekomendasi</span>
             </a>

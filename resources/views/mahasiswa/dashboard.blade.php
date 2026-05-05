@@ -34,46 +34,66 @@ tailwind.config = {
 
 @section('content')
 
-<div class="flex items-center justify-between full-height px-12">
+<div class="flex flex-col lg:flex-row items-center justify-between full-height px-6 lg:px-12 gap-10">
 
     <!-- KIRI -->
-    <div class="w-1/2">
+   <div class="w-full lg:w-1/2 max-w-xl flex flex-col">
 
-        <h1 class="text-5xl font-bold text-gray-800 leading-tight">
-            Selamat Datang di Sistem 
-            <span class="text-scrr-orange">
-                Cerdas Rencana Riset (SCRR)
-            </span>
-        </h1>
+    <h1 class="text-5xl font-bold text-gray-800 leading-tight">
+        Selamat Datang di Sistem 
+        <span class="text-scrr-orange">
+            Cerdas Rencana Riset (SCRR)
+        </span>
+    </h1>
 
-        <p class="text-gray-600 mt-6 text-lg max-w-xl leading-relaxed">
-            Platform berbasis web yang membantu mahasiswa menentukan judul skripsi
-            dan dosen pembimbing secara otomatis menggunakan metode Machine Learning.
-        </p>
+    <!-- 🔥 CARD MOBILE (TAMBAHAN BARU) -->
+    <div class="block lg:hidden mt-6 flex justify-center">
+        <div class="relative">
 
-        <a href="{{ route('mahasiswa.rekomendasi') }}"
-        class="mt-8 px-6 py-3 rounded-full text-white font-semibold shadow-lg 
-        bg-gradient-to-r from-orange-400 to-orange-600 hover:scale-105 transition flex items-center gap-2 w-fit">
-            
-            Mulai Rekomendasi ✨
-            <i class="fas fa-sparkles"></i>
-        </a>
+            <div class="absolute inset-0 bg-[#FDE68A] rounded-[2rem] 
+                -translate-x-2 -translate-y-2 scale-105 -rotate-3"></div>
 
+            <div class="relative bg-white border-2 border-white rounded-[2rem] p-4 shadow-sm z-10 flex items-center justify-center
+                w-[280px] h-[210px] sm:w-[340px] sm:h-[260px]">
+
+                <img src="{{ asset('assets/img/riset.jpg') }}"
+                     class="w-full h-full object-contain">
+
+            </div>
+
+        </div>
     </div>
 
+    <p class="text-gray-600 mt-6 text-lg max-w-xl leading-relaxed">
+        Platform berbasis web yang membantu mahasiswa menentukan judul skripsi
+        dan dosen pembimbing secara otomatis menggunakan metode Machine Learning.
+    </p>
+
+    <a href="{{ route('mahasiswa.rekomendasi') }}"
+    class="mt-8 px-6 py-3 rounded-full text-white font-semibold shadow-lg 
+    bg-gradient-to-r from-orange-400 to-orange-600 hover:scale-105 transition flex items-center gap-2 w-fit">
+        
+        Mulai Rekomendasi ✨
+        <i class="fas fa-sparkles"></i>
+    </a>
+
+</div>
+
     <!-- KANAN -->
-    <div class="w-1/2 flex justify-center">
+    <div class="w-full lg:w-1/2 hidden lg:flex justify-center shrink-0">
 
         <div class="relative">
 
-            <div class="absolute inset-0 bg-[#FDE68A] rounded-[2.5rem] -translate-x-3 -translate-y-2 scale-110 -rotate-3"></div>
+             <!-- background efek -->
+            <div class="absolute inset-0 bg-[#FDE68A] rounded-[2rem] 
+                -translate-x-2 -translate-y-2 scale-105 -rotate-3"></div>
 
             <!-- CARD -->
-            <div class="relative bg-white border-2 border-white rounded-[2.5rem] p-6 shadow-sm z-10 flex items-center justify-center"
-                style="width: 460px; height: 340px;">
+            <div class="relative bg-white border-2 border-white rounded-[2rem] p-4 shadow-sm z-10 flex items-center justify-center
+                w-[300px] h-[230px] sm:w-[360px] sm:h-[280px] lg:w-[420px] lg:h-[320px]">
 
                 <img src="{{ asset('assets/img/riset.jpg') }}"
-                    class="w-full h-full object-contain">
+                     class="w-full h-full object-contain">
 
             </div>
 
