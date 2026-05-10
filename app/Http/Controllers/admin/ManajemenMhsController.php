@@ -12,8 +12,9 @@ class ManajemenMhsController extends Controller
     public function index()
     {
         $mahasiswa = Mahasiswa::paginate(10);
+        $totalMahasiswa = Mahasiswa::count();
 
-        return view('admin.manajemen_mahasiswa', compact('mahasiswa'));
+        return view('admin.manajemen_mahasiswa.index', compact('mahasiswa', 'totalMahasiswa'));
     }
 
     public function create()
@@ -24,62 +25,23 @@ class ManajemenMhsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string',
-            'email' => 'required|string|email',
-            'nip' => 'required|string',
-            'tempat_lahir' => 'required|string',
-            'tanggal_lahir' => 'required|date',
-            'no_hp' => 'required|string',
-            'alamat' => 'required|string',
-            'jenis_kelamin' => 'required|string',
-            'agama' => 'required|string',
-            'lokasi_pendidikan' => 'required|string',
-            'pendidikan_terakhir' => 'required|string',
-            'pekerjaan' => 'required|string',
-            'posisi' => 'required|string',
-            'tahun_masuk' => 'required|numeric',
-            'tahun_keluar' => 'required|numeric',
-            'status' => 'required|string',
+            'nim' => 'required|string',
+            'username' => 'required|string',
+            'password' => 'required|string|min:6',
         ], [
-            'nama.required' => 'Nama wajib diisi',
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Email harus berupa email yang valid',
-            'nip.required' => 'NIP wajib diisi',
-            'tempat_lahir.required' => 'Tempat Lahir wajib diisi',
-            'tanggal_lahir.required' => 'Tanggal Lahir wajib diisi',
-            'no_hp.required' => 'No HP wajib diisi',
-            'alamat.required' => 'Alamat wajib diisi',
-            'jenis_kelamin.required' => 'Jenis Kelamin wajib diisi',
-            'agama.required' => 'Agama wajib diisi',
-            'lokasi_pendidikan.required' => 'Lokasi Pendidikan wajib diisi',
-            'pendidikan_terakhir.required' => 'Pendidikan Terakhir wajib diisi',
-            'pekerjaan.required' => 'Pekerjaan wajib diisi',
-            'posisi.required' => 'Posisi wajib diisi',
-            'tahun_masuk.required' => 'Tahun Masuk wajib diisi',
-            'tahun_keluar.required' => 'Tahun Keluar wajib diisi',
-            'status.required' => 'Status wajib diisi',
+            'nim.required' => 'NIM wajib diisi',
+            'username.required' => 'Username wajib diisi',
+            'password.required' => 'Password wajib diisi',
+            'password.min' => 'Password minimal 8 karakter',
         ]);
 
         Mahasiswa::create([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'nip' => $request->nip,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'no_hp' => $request->no_hp,
-            'alamat' => $request->alamat,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'agama' => $request->agama,
-            'lokasi_pendidikan' => $request->lokasi_pendidikan,
-            'pendidikan_terakhir' => $request->pendidikan_terakhir,
-            'pekerjaan' => $request->pekerjaan,
-            'posisi' => $request->posisi,
-            'tahun_masuk' => $request->tahun_masuk,
-            'tahun_keluar' => $request->tahun_keluar,
-            'status' => $request->status,
+            'nim' => $request->nim,
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
         ]);
 
-        return redirect()->route('admin.manajemen_mahasiswa')
+        return redirect()->route('admin.manajemen_mahasiswa.index')
                           ->with('success', 'Mahasiswa berhasil dibuat.');
     }
 
@@ -100,70 +62,32 @@ class ManajemenMhsController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required|string',
-            'email' => 'required|string|email',
-            'nip' => 'required|string',
-            'tempat_lahir' => 'required|string',
-            'tanggal_lahir' => 'required|date',
-            'no_hp' => 'required|string',
-            'alamat' => 'required|string',
-            'jenis_kelamin' => 'required|string',
-            'agama' => 'required|string',
-            'lokasi_pendidikan' => 'required|string',
-            'pendidikan_terakhir' => 'required|string',
-            'pekerjaan' => 'required|string',
-            'posisi' => 'required|string',
-            'tahun_masuk' => 'required|numeric',
-            'tahun_keluar' => 'required|numeric',
-            'status' => 'required|string',
+            'nim' => 'required|string',
+            'username' => 'required|string',
+            'password' => 'nullable|string|min:8',
         ], [
-            'nama.required' => 'Nama wajib diisi',
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Email harus berupa email yang valid',
-            'nip.required' => 'NIP wajib diisi',
-            'tempat_lahir.required' => 'Tempat Lahir wajib diisi',
-            'tanggal_lahir.required' => 'Tanggal Lahir wajib diisi',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-            'no_hp.required' => 'No HP wajib diisi',
-            'alamat.required' => 'Alamat wajib diisi',
-            'jenis_kelamin.required' => 'Jenis Kelamin wajib diisi',
-            'agama.required' => 'Agama wajib diisi',
-            'lokasi_pendidikan.required' => 'Lokasi Pendidikan wajib diisi',
-            'pendidikan_terakhir.required' => 'Pendidikan Terakhir wajib diisi',
-            'pekerjaan.required' => 'Pekerjaan wajib diisi',
-            'posisi.required' => 'Posisi wajib diisi',
-            'tahun_masuk.required' => 'Tahun Masuk wajib diisi',
-            'tahun_keluar.required' => 'Tahun Keluar wajib diisi',
-            'status.required' => 'Status wajib diisi',
+            'nim.required' => 'NIM wajib diisi',
+            'username.required' => 'Username wajib diisi',
+            'password.min' => 'Password minimal 8 karakter',
         ]);
 
-        Mahasiswa::find($id)->update([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'nip' => $request->nip,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'no_hp' => $request->no_hp,
-            'alamat' => $request->alamat,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'agama' => $request->agama,
-            'lokasi_pendidikan' => $request->lokasi_pendidikan,
-            'pendidikan_terakhir' => $request->pendidikan_terakhir,
-            'pekerjaan' => $request->pekerjaan,
-            'posisi' => $request->posisi,
-            'tahun_masuk' => $request->tahun_masuk,
-            'tahun_keluar' => $request->tahun_keluar,
-            'status' => $request->status,
-        ]);
+        $mahasiswa = Mahasiswa::find($id);
+        $mahasiswa->nim = $request->nim;
+        $mahasiswa->username = $request->username;
+        if ($request->filled('password')) {
+            $mahasiswa->password = bcrypt($request->password);
+        }
+        $mahasiswa->save();
 
-        return redirect()->route('admin.manajemen_mahasiswa')
+        return redirect()->route('admin.manajemen_mahasiswa.index')
                           ->with('success', 'Mahasiswa berhasil diubah.');
     }
-
+           
     public function destroy($id)
     {
         Mahasiswa::destroy($id);
 
-        return redirect()->route('admin.manajemen_mahasiswa')
+        return redirect()->route('admin.manajemen_mahasiswa.index')
                           ->with('success', 'Mahasiswa berhasil dihapus.');
     }
 }

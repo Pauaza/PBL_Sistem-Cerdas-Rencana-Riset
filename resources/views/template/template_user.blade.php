@@ -265,8 +265,48 @@
             <div class="user-info">
                 <span class="name">{{ Auth::user()->name ?? 'Mahasiswa' }}</span>
                 <span class="id">{{ Auth::user()->username ?? '12345678' }}</span>
+            </div><button onclick="toggleDropdown()"
+                style="margin-left: auto; cursor: pointer;"
+                class="w-9 h-9 rounded-lg hover:bg-gray-100 transition flex items-center justify-center">
+
+                <i class="fa-solid fa-gear text-gray-600"></i>
+            </button>
+            {{-- Popup Dropdown --}}
+            <div id="dropdownMenu"
+                class="hidden absolute bottom-14 right-0 w-40 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-50">
+
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+
+                    <button type="submit"
+                        class="w-full text-left px-4 py-3 text-sm text-red-500 hover:bg-red-50 flex items-center gap-2 transition">
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+
+                    </button>
+
+                </form>
+
             </div>
-            <i class="fa-solid fa-gear" style="margin-left: auto; cursor: pointer;"></i>
+
+        </div>
+
+        <script>
+            function toggleDropdown() {
+                const menu = document.getElementById('dropdownMenu');
+                menu.classList.toggle('hidden');
+            }
+
+            // Klik luar dropdown = tutup popup
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('dropdownMenu');
+
+                if (!event.target.closest('.sidebar-footer')) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        </script>
         </div>
     </aside>
 

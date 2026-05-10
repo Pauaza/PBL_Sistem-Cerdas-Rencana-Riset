@@ -307,7 +307,7 @@
                         <span>Dosen</span>
                     </a>
                     {{-- Navigasi ke Manajemen Mahasiswa --}}
-                    <a href="{{ route('admin.manajemen_mahasiswa') }}"
+                    <a href="{{ route('admin.manajemen_mahasiswa.index') }}"
                         class="sub-item {{ request()->is('admin/manajemen_mahasiswa*') ? 'active' : '' }}">
                         <i class="fa-solid fa-database"></i>
                         <span>Mahasiswa</span>
@@ -324,7 +324,48 @@
                 <span class="name">Admin JTI</span>
                 <span class="id">1234567890</span>
             </div>
-            <i class="fa-solid fa-gear" style="margin-left: auto; cursor: pointer;"></i>
+            <button onclick="toggleDropdown()"
+                style="margin-left: auto; cursor: pointer;"
+                class="w-9 h-9 rounded-lg hover:bg-gray-100 transition flex items-center justify-center">
+
+                <i class="fa-solid fa-gear text-gray-600"></i>
+            </button>
+            {{-- Popup Dropdown --}}
+            <div id="dropdownMenu"
+                class="hidden absolute bottom-14 right-0 w-40 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-50">
+
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+
+                    <button type="submit"
+                        class="w-full text-left px-4 py-3 text-sm text-red-500 hover:bg-red-50 flex items-center gap-2 transition">
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <script>
+            function toggleDropdown() {
+                const menu = document.getElementById('dropdownMenu');
+                menu.classList.toggle('hidden');
+            }
+
+            // Klik luar dropdown = tutup popup
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('dropdownMenu');
+
+                if (!event.target.closest('.sidebar-footer')) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        </script>
         </div>
     </aside>
 
@@ -346,36 +387,36 @@
     @stack('scripts')
 
     @push('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const menuOlahData = document.getElementById('menuOlahData');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuOlahData = document.getElementById('menuOlahData');
 
-                // Pastikan mengklik area nav-link di dalam has-sub
-                if (menuOlahData) {
-                    menuOlahData.querySelector('.nav-link').addEventListener('click', function(e) {
-                        e.preventDefault();
-                        menuOlahData.classList.toggle('active');
-                    });
-                }
+            // Pastikan mengklik area nav-link di dalam has-sub
+            if (menuOlahData) {
+                menuOlahData.querySelector('.nav-link').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    menuOlahData.classList.toggle('active');
+                });
+            }
 
-                // Toggle Sidebar (Collapse)
-                const toggleSidebar = document.getElementById('toggleSidebar');
-                const sidebar = document.querySelector('.sidebar');
-                const mainWrapper = document.querySelector('.main-wrapper');
+            // Toggle Sidebar (Collapse)
+            const toggleSidebar = document.getElementById('toggleSidebar');
+            const sidebar = document.querySelector('.sidebar');
+            const mainWrapper = document.querySelector('.main-wrapper');
 
-                if (toggleSidebar) {
-                    toggleSidebar.addEventListener('click', () => {
-                        sidebar.classList.toggle('collapsed');
-                        mainWrapper.classList.toggle('full');
+            if (toggleSidebar) {
+                toggleSidebar.addEventListener('click', () => {
+                    sidebar.classList.toggle('collapsed');
+                    mainWrapper.classList.toggle('full');
 
-                        // Ubah icon
-                        const icon = toggleSidebar.querySelector('i');
-                        icon.classList.toggle('fa-chevron-left');
-                        icon.classList.toggle('fa-chevron-right');
-                    });
-                }
-            });
-        </script>
+                    // Ubah icon
+                    const icon = toggleSidebar.querySelector('i');
+                    icon.classList.toggle('fa-chevron-left');
+                    icon.classList.toggle('fa-chevron-right');
+                });
+            }
+        });
+    </script>
     @endpush
     @stack('scripts')
 </body>

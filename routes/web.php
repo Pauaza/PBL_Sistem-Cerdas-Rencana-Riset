@@ -53,9 +53,8 @@ Route::middleware('auth:mahasiswa,admin')->group(function () {
         Route::get('/manajemen-dosen', [ManajemenDosenController::class, 'index'])
             ->name('admin.manajemen_dosen');
 
-        Route::get('/manajemen-mahasiswa', function () {
-            return view('admin.manajemen_mahasiswa');
-        })->name('admin.manajemen_mahasiswa');
+        Route::resource('manajemen-mahasiswa', ManajemenMhsController::class)
+            ->names('admin.manajemen_mahasiswa');
 
         Route::get('/profil', function () {
             return view('admin.profil');
