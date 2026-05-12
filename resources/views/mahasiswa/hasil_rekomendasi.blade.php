@@ -47,7 +47,7 @@ tailwind.config = {
     $topikSafe = $topik ?? 'Sistem Informasi';
 @endphp
 
-<div class="full-height px-12 py-10 font-sans">
+<div class="full-height px-12 pt-2 pb-10 font-sans">
 
     <!-- WRAPPER BIAR RAPI -->
     <div class="max-w-6xl mx-auto">
@@ -102,9 +102,7 @@ tailwind.config = {
             </div>
         </div>
 
-        <!-- ===================== -->
         <!-- DOSEN -->
-        <!-- ===================== -->
         <div class="mt-12">
 
             <h3 class="text-sm font-semibold text-orange-600 mb-4">
@@ -113,44 +111,74 @@ tailwind.config = {
 
             <div class="flex gap-6 overflow-x-auto scroll-dosen pb-4">
 
-                <!-- CARD -->
-                <div class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 flex justify-between items-center">
+                <!-- CARD 1 -->
+                <a href="{{ route('dosen.show', 1) }}"
+                class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 
+                        flex justify-between items-center hover:shadow-xl 
+                        hover:-translate-y-1 transition duration-300 border border-gray-100">
+
                     <div>
-                        <h4 class="font-bold text-lg">Indah Sulistyo, S.Pd., M.Pd</h4>
+                        <h4 class="font-bold text-lg text-gray-800">
+                            Indah Sulistyo, S.Pd., M.Pd
+                        </h4>
+
                         <p class="text-sm text-gray-500 mt-2">
                             Sesuai dengan topik {{ $topikSafe }}
                         </p>
                     </div>
+
                     <div class="bg-yellow-400 text-black font-bold text-xl px-4 py-6 rounded-lg">
                         96%
                     </div>
-                </div>
 
-                <div class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 flex justify-between items-center">
+                </a>
+
+                <!-- CARD 2 -->
+                <a href="{{ route('dosen.show', 2) }}"
+                class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 
+                        flex justify-between items-center hover:shadow-xl 
+                        hover:-translate-y-1 transition duration-300 border border-gray-100">
+
                     <div>
-                        <h4 class="font-bold text-lg">Arif Subandi, S.Pd., M.Pd</h4>
+                        <h4 class="font-bold text-lg text-gray-800">
+                            Arif Subandi, S.Pd., M.Pd
+                        </h4>
+
                         <p class="text-sm text-gray-500 mt-2">
                             Relevan dengan penelitian Anda
                         </p>
                     </div>
+
                     <div class="bg-yellow-400 text-black font-bold text-xl px-4 py-6 rounded-lg">
                         87%
                     </div>
-                </div>
 
-                <div class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 flex justify-between items-center">
+                </a>
+
+                <!-- CARD 3 -->
+                <a href="{{ route('dosen.show', 3) }}"
+                class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 
+                        flex justify-between items-center hover:shadow-xl 
+                        hover:-translate-y-1 transition duration-300 border border-gray-100">
+
                     <div>
-                        <h4 class="font-bold text-lg">Adinda Negara, S.Pd</h4>
+                        <h4 class="font-bold text-lg text-gray-800">
+                            Adinda Negara, S.Pd
+                        </h4>
+
                         <p class="text-sm text-gray-500 mt-2">
                             Cocok untuk bidang analisis data
                         </p>
                     </div>
+
                     <div class="bg-yellow-400 text-black font-bold text-xl px-4 py-6 rounded-lg">
                         70%
                     </div>
-                </div>
+
+                </a>
 
             </div>
+
         </div>
 
         <!-- ===================== -->

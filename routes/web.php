@@ -41,6 +41,10 @@ Route::middleware('auth:mahasiswa,admin')->group(function () {
 
         Route::get('/rekomendasi', [MahasiswaController::class, 'rekomendasi'])
             ->name('mahasiswa.rekomendasi');
+
+        // DETAIL DOSEN
+        Route::get('/dosen/{id}', [MahasiswaController::class, 'detailDosen'])
+            ->name('dosen.show');
     });
 
     // ================= ADMIN =================

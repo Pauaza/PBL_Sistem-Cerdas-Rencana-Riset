@@ -49,11 +49,12 @@
             transition: all 0.3s ease;
         }
 
-        .sidebar.collapsed {
-            width: 0;
+        .history-panel.collapsed {
+            width: 0 !important;
+            min-width: 0 !important;
             padding: 0;
             overflow: hidden;
-            pointer-events: none;
+            border-left: none;
         }
 
         .sidebar-top {
@@ -130,6 +131,7 @@
             display: flex;
             min-height: 100vh;
             transition: all 0.3s ease;
+            overflow: hidden;
         }
 
         .main-wrapper.full {
@@ -159,13 +161,16 @@
             flex: 1;
             padding: 40px 44px;
             background: var(--content-bg);
+            overflow-x: hidden;
         }
 
         /* ─────────────────────────────
             HISTORY PANEL (Kanan)
         ───────────────────────────── */
-        .history-panel {
+       .history-panel {
             width: 210px;
+            min-width: 210px;
+            flex-shrink: 0;
             background: var(--panel-bg);
             border-left: 1px solid #EDE8DF;
             padding: 24px 16px;
@@ -252,7 +257,7 @@
             </a>
 
             <a href="{{ route('mahasiswa.rekomendasi') }}"
-            class="nav-item {{ request()->routeIs('mahasiswa.rekomendasi') ? 'active' : '' }}">
+                class="nav-item {{ request()->routeIs('mahasiswa.rekomendasi') || request()->routeIs('mahasiswa.hasil_rekomendasi') || request()->routeIs('dosen.show')? 'active' : '' }}">
                 <i class="fa-solid fa-lightbulb"></i>
                 <span>Rekomendasi</span>
             </a>

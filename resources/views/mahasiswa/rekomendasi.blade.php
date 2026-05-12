@@ -34,7 +34,7 @@ tailwind.config = {
 
 @section('content')
 
-<div class="full-height px-12 pt-6 pb-10 font-sans flex justify-center items-start">
+<div class="full-height px-12 pt-0 pb-10 font-sans flex justify-center items-start">
 
     <!-- FORM WRAPPER (BIAR TENGAH & FULL) -->
     <div class="w-full max-w-4xl">
@@ -54,7 +54,7 @@ tailwind.config = {
 
         <!-- FORM -->
         <form action="{{ route('mahasiswa.hasil_rekomendasi') }}" method="POST"
-              class="mt-10 bg-white/80 backdrop-blur-md p-10 rounded-2xl shadow-md space-y-8">
+            class="mt-6 bg-white/80 backdrop-blur-md p-10 rounded-2xl shadow-md space-y-8">
 
             @csrf
 

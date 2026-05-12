@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Dosen;
 
 class MahasiswaController extends Controller
 {
@@ -22,5 +23,13 @@ class MahasiswaController extends Controller
         $deskripsi = $request->input('deskripsi', '-');
 
         return view('mahasiswa.hasil_rekomendasi', compact('topik', 'deskripsi'));
+    }
+
+      public function detailDosen($id)
+    {
+        $dosen = Dosen::with(['lab', 'penelitian'])
+                    ->findOrFail($id);
+
+        return view('mahasiswa.dosen', compact('dosen'));
     }
 }
