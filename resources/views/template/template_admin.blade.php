@@ -23,6 +23,8 @@
             --text-dark: #333333;
             --sidebar-w: 240px;
             /* Diperlebar sesuai gambar */
+            --content-bg: #F5F0E8;
+            --panel-bg: #FFF8E1;
         }
 
         body {
@@ -42,7 +44,14 @@
             padding: 24px 16px;
             position: fixed;
             height: 100vh;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 0;
+            padding: 0;
+            overflow: hidden;
+            pointer-events: none;
         }
 
         /* Logo Area */
@@ -107,7 +116,7 @@
             margin-top: 4px;
         }
 
-        .has-sub.active .sub-menu {
+        .has-sub.open .sub-menu {
             display: flex;
         }
 
@@ -128,6 +137,11 @@
             font-weight: bold;
         }
 
+        .has-sub.active-route>.nav-link {
+            background: var(--primary-yellow);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+        }
+
         /* Arrow rotation */
         .arrow {
             margin-left: auto;
@@ -135,7 +149,7 @@
             transition: 0.3s;
         }
 
-        .has-sub.active .arrow {
+        .has-sub.open .arrow {
             transform: rotate(180deg);
         }
 
@@ -265,13 +279,15 @@
             .content-area {
                 padding: 24px 18px;
             }
+        }
 
-            /* tambahkan animasi */
-            .sidebar,
-            .history-panel,
-            .main-wrapper {
-                transition: all 0.3s ease;
-            }
+        .content-area {
+            background: radial-gradient(circle at top right, #FEF3C7 0%, #F9FBFF 40%) !important;
+        }
+
+        /* full tinggi */
+        .full-height {
+            min-height: calc(100vh - 80px);
         }
     </style>
     @stack('styles')
@@ -293,25 +309,30 @@
             </a>
 
             {{-- Olah Data Dropdown --}}
-            <div class="has-sub" id="menuOlahData">
+            <div class="has-sub {{ request()->is('admin/manajemen-dosen*') || request()->is('admin/manajemen-mahasiswa*') ? 'active-route open' : '' }}" id="menuOlahData">
+
                 <div class="nav-link">
                     <i class="fa-solid fa-database"></i>
                     <span>Olah Data</span>
                     <i class="fa-solid fa-chevron-down arrow"></i>
                 </div>
+
                 <div class="sub-menu">
+
                     {{-- Navigasi ke Manajemen Dosen --}}
                     <a href="{{ route('admin.manajemen_dosen') }}"
-                        class="sub-item {{ request()->is('admin/manajemen_dosen*') ? 'active' : '' }}">
+                        class="sub-item {{ request()->is('admin/manajemen-dosen*') ? 'active' : '' }}">
                         <i class="fa-solid fa-database"></i>
                         <span>Dosen</span>
                     </a>
+
                     {{-- Navigasi ke Manajemen Mahasiswa --}}
                     <a href="{{ route('admin.manajemen_mahasiswa.index') }}"
-                        class="sub-item {{ request()->is('admin/manajemen_mahasiswa*') ? 'active' : '' }}">
+                        class="sub-item {{ request()->is('admin/manajemen-mahasiswa*') ? 'active' : '' }}">
                         <i class="fa-solid fa-database"></i>
                         <span>Mahasiswa</span>
                     </a>
+
                 </div>
             </div>
         </nav>
@@ -321,8 +342,8 @@
                 <i class="fa-solid fa-circle-user" style="font-size: 40px;"></i>
             </div>
             <div class="user-info">
-                <span class="name">Admin JTI</span>
-                <span class="id">1234567890</span>
+                <span class="name">{{ Auth::user()->name ?? 'Admin' }}</span>
+
             </div>
             <button onclick="toggleDropdown()"
                 style="margin-left: auto; cursor: pointer;"
@@ -369,22 +390,18 @@
         </div>
     </aside>
 
-
-    </aside>
-
     {{-- ═══════════ MAIN WRAPPER ═══════════ --}}
     <div class="main-wrapper">
-
+        {{-- Tombol Toggle Sidebar --}}
+        <button class="toggle-sidebar" id="toggleSidebar">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
 
         {{-- Content --}}
         <main class="content-area">
             @yield('content')
         </main>
-
-
     </div>
-
-    @stack('scripts')
 
     @push('scripts')
     <script>
@@ -395,7 +412,7 @@
             if (menuOlahData) {
                 menuOlahData.querySelector('.nav-link').addEventListener('click', function(e) {
                     e.preventDefault();
-                    menuOlahData.classList.toggle('active');
+                    menuOlahData.classList.toggle('open');
                 });
             }
 
@@ -404,23 +421,25 @@
             const sidebar = document.querySelector('.sidebar');
             const mainWrapper = document.querySelector('.main-wrapper');
 
-            if (toggleSidebar) {
-                toggleSidebar.addEventListener('click', () => {
-                    sidebar.classList.toggle('collapsed');
-                    mainWrapper.classList.toggle('full');
 
-                    // Ubah icon
-                    const icon = toggleSidebar.querySelector('i');
-                    icon.classList.toggle('fa-chevron-left');
-                    icon.classList.toggle('fa-chevron-right');
-                });
-            }
+            toggleSidebar.addEventListener('click', () => {
+                sidebar.classList.toggle('collapsed');
+                mainWrapper.classList.toggle('full');
+
+                // Ubah icon
+                const icon = toggleSidebar.querySelector('i');
+                if (sidebar.classList.contains('collapsed')) {
+                    icon.classList.replace('fa-chevron-left', 'fa-chevron-right');
+                    toggleSidebar.style.left = '0';
+                } else {
+                    icon.classList.replace('fa-chevron-right', 'fa-chevron-left');
+                    toggleSidebar.style.left = '240px';
+                }
+            });
         });
     </script>
     @endpush
     @stack('scripts')
 </body>
-
-
 
 </html>

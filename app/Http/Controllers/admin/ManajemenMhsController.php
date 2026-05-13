@@ -13,8 +13,9 @@ class ManajemenMhsController extends Controller
     {
         $mahasiswa = Mahasiswa::paginate(10);
         $totalMahasiswa = Mahasiswa::count();
+        $totalProdi = Mahasiswa::distinct('prodi')->count('prodi');
 
-        return view('admin.manajemen_mahasiswa.index', compact('mahasiswa', 'totalMahasiswa'));
+        return view('admin.manajemen_mahasiswa.index', compact('mahasiswa', 'totalMahasiswa', 'totalProdi'));
     }
 
     public function create()
@@ -27,10 +28,12 @@ class ManajemenMhsController extends Controller
         $request->validate([
             'nim' => 'required|string',
             'username' => 'required|string',
-            'password' => 'required|string|min:6',
+            'prodi' => 'required|string',
+            'password' => 'required|string|min:8',
         ], [
             'nim.required' => 'NIM wajib diisi',
             'username.required' => 'Username wajib diisi',
+            'prodi.required' => 'Prodi wajib diisi',
             'password.required' => 'Password wajib diisi',
             'password.min' => 'Password minimal 8 karakter',
         ]);
@@ -38,6 +41,7 @@ class ManajemenMhsController extends Controller
         Mahasiswa::create([
             'nim' => $request->nim,
             'username' => $request->username,
+            'prodi' => $request->prodi,
             'password' => bcrypt($request->password),
         ]);
 
@@ -45,35 +49,38 @@ class ManajemenMhsController extends Controller
                           ->with('success', 'Mahasiswa berhasil dibuat.');
     }
 
-    public function show($id)
+    public function show($nim)
     {
-        $mahasiswa = Mahasiswa::find($id);
+        $mahasiswa = Mahasiswa::find($nim);
 
         return view('admin.manajemen_mahasiswa.show', compact('mahasiswa'));
     }
 
-    public function edit($id)
+    public function edit($nim)
     {
-        $mahasiswa = Mahasiswa::find($id);
+        $mahasiswa = Mahasiswa::find($nim);
 
         return view('admin.manajemen_mahasiswa.edit', compact('mahasiswa'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $nim)
     {
         $request->validate([
             'nim' => 'required|string',
             'username' => 'required|string',
+            'prodi' => 'nullable|string',
             'password' => 'nullable|string|min:8',
         ], [
             'nim.required' => 'NIM wajib diisi',
             'username.required' => 'Username wajib diisi',
+            'prodi.required' => 'Prodi wajib diisi',
             'password.min' => 'Password minimal 8 karakter',
         ]);
 
-        $mahasiswa = Mahasiswa::find($id);
+        $mahasiswa = Mahasiswa::find($nim);
         $mahasiswa->nim = $request->nim;
         $mahasiswa->username = $request->username;
+        $mahasiswa->prodi = $request->prodi;
         if ($request->filled('password')) {
             $mahasiswa->password = bcrypt($request->password);
         }
@@ -83,9 +90,9 @@ class ManajemenMhsController extends Controller
                           ->with('success', 'Mahasiswa berhasil diubah.');
     }
            
-    public function destroy($id)
+    public function destroy($nim)
     {
-        Mahasiswa::destroy($id);
+        Mahasiswa::destroy($nim);
 
         return redirect()->route('admin.manajemen_mahasiswa.index')
                           ->with('success', 'Mahasiswa berhasil dihapus.');

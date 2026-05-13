@@ -30,7 +30,7 @@
                 <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
                     <i class="fa-solid fa-users text-blue-600 text-xl"></i>
                 </div>
-                <h3 class="text-3xl font-bold text-gray-900">{{ $totalDosen ?? 0 }}</h3>
+                <h3 class="text-3xl font-bold text-gray-900">{{ $totalDosen }}</h3>
                 <p class="text-[10px] uppercase font-bold text-gray-500 mt-1 tracking-wider">TOTAL DOSEN</p>
             </div>
            
@@ -38,7 +38,7 @@
                 <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
                     <i class="fa-solid fa-chart-line text-blue-600 text-xl"></i>
                 </div>
-                <h3 class="text-3xl font-bold text-gray-900">{{ $totalPenelitian ?? 0 }}</h3>
+                <h3 class="text-3xl font-bold text-gray-900">{{ $totalPenelitian}}</h3>
                 <p class="text-[10px] uppercase font-bold text-gray-500 mt-1 tracking-wider">JUMLAH PENELITIAN</p>
             </div>
 
@@ -46,7 +46,7 @@
                 <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
                     <i class="fa-solid fa-lightbulb text-blue-600 text-xl"></i>
                 </div>
-                <h3 class="text-3xl font-bold text-gray-900">{{ $totalLab ?? 0 }}</h3>
+                <h3 class="text-3xl font-bold text-gray-900">{{ $totalLab }}</h3>
                 <p class="text-[10px] uppercase font-bold text-gray-500 mt-1 tracking-wider">LABORATORIUM</p>
             </div>
 
@@ -54,7 +54,7 @@
                 <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
                     <i class="fa-solid fa-graduation-cap text-blue-600 text-xl"></i>
                 </div>
-                <h3 class="text-3xl font-bold text-gray-900">{{ $totalSkripsi ?? 0 }}</h3>
+                <h3 class="text-3xl font-bold text-gray-900">{{ $totalSkripsi}}</h3>
                 <p class="text-[10px] uppercase font-bold text-gray-500 mt-1 tracking-wider">BIMBINGAN ALUMNI</p>
             </div>
         </div>
@@ -63,10 +63,10 @@
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
            
             <!-- FILTER & PAGINATION INFO -->
-            <div class="p-4 border-b border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-3 w-full md:w-auto">
+            <!-- <div class="p-4 border-b border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3 w-full md:w-auto"> -->
                     <!-- Filter Prodi -->
-                    <div class="relative w-full md:w-48">
+                    <!-- <div class="relative w-full md:w-48">
                         <select class="w-full bg-gray-50 border border-transparent text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-3 py-2.5 appearance-none cursor-pointer">
                             <option>Semua Prodi</option>
                             <option>Sistem Informasi</option>
@@ -75,10 +75,10 @@
                         <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-gray-500">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                    </div>
+                    </div> -->
                    
                     <!-- Filter Bidang Keahlian -->
-                    <div class="relative w-full md:w-56">
+                    <!-- <div class="relative w-full md:w-56">
                         <select class="w-full bg-gray-50 border border-transparent text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-3 py-2.5 appearance-none cursor-pointer">
                             <option>Bidang Keahlian: Semua</option>
                             <option>Machine Learning</option>
@@ -93,7 +93,7 @@
                 <div class="flex items-center text-sm text-gray-500 gap-2">
                     <span>Showing {{ $dosen->firstItem() ?? 1 }}-{{ $dosen->lastItem() ?? 0 }} of {{ $dosen->total() }}</span>
                 </div>
-            </div>
+            </div> -->
 
             <!-- TABLE -->
             <div class="overflow-x-auto">

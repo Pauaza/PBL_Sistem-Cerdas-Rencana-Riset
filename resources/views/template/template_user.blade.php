@@ -270,7 +270,8 @@
             <div class="user-info">
                 <span class="name">{{ Auth::user()->name ?? 'Mahasiswa' }}</span>
                 <span class="id">{{ Auth::user()->username ?? '12345678' }}</span>
-            </div><button onclick="toggleDropdown()"
+            </div>
+            <button onclick="toggleDropdown()"
                 style="margin-left: auto; cursor: pointer;"
                 class="w-9 h-9 rounded-lg hover:bg-gray-100 transition flex items-center justify-center">
 

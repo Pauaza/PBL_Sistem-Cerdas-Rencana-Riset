@@ -1,6 +1,6 @@
 @extends('template.template_user')
 
-@section('title', 'Beranda_Mahsiswa')
+@section('title', 'Beranda_Mahasiswa')
 
 @push('styles')
 <!-- Tailwind khusus halaman ini -->
@@ -46,7 +46,7 @@ tailwind.config = {
         </span>
     </h1>
 
-    <!-- 🔥 CARD MOBILE (TAMBAHAN BARU) -->
+    <!-- CARD MOBILE (TAMBAHAN BARU) -->
     <div class="block lg:hidden mt-6 flex justify-center">
         <div class="relative">
 

@@ -5,7 +5,7 @@
 
     <h2 class="text-xl font-bold mb-4">Edit Mahasiswa</h2>
 
-    <form action="{{ route('manajemen_mahasiswa.update', $mahasiswa->nim) }}" method="POST">
+    <form action="{{ route('manajemen_mahasiswa.edit', $mahasiswa->nim) }}" method="POST">
         @csrf
         @method('PUT')
 

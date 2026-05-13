@@ -5,6 +5,17 @@
 {{-- Karena template Anda menggunakan CSS manual, kita inject Tailwind hanya untuk halaman ini (opsional jika Vite sudah aktif) --}}
 @push('styles')
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'scrr-orange': '#F18F01',
+                    }
+                }
+            }
+        }
+    </script>
 @endpush
 
 @section('content')
