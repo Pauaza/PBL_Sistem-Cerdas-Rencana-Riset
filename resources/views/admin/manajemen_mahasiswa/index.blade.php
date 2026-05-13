@@ -4,6 +4,7 @@
 
 @push('styles')
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
@@ -22,12 +23,25 @@
                 </svg>
                 Export
             </button>
-            <button class="flex items-center px-4 py-2 bg-[#FFC107] text-white text-sm font-semibold rounded-lg hover:bg-yellow-500 transition-colors shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15" />
+            <a href="{{ route('admin.manajemen_mahasiswa.create') }}"
+                class="flex items-center px-4 py-2 bg-[#FFC107] text-white text-sm font-semibold rounded-lg hover:bg-yellow-500 transition-colors shadow-sm">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-4 h-4 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 4.5v15m7.5-7.5h-15" />
+
                 </svg>
+
                 Tambah Mahasiswa
-            </button>
+
+            </a>
         </div>
     </div>
 
@@ -42,14 +56,14 @@
         </div>
 
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-user-check text-blue-600"></i>
-                </div>
-                <h3 class="text-3xl font-bold text-gray-900">{{ $totalProdi }}</h3>
-                <p class="text-xs font-bold text-gray-500 mt-1 uppercase tracking-wider">Total Prodi</p>
+            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
+                <i class="fa-solid fa-user-check text-blue-600"></i>
             </div>
+            <h3 class="text-3xl font-bold text-gray-900">{{ $totalProdi }}</h3>
+            <p class="text-xs font-bold text-gray-500 mt-1 uppercase tracking-wider">Total Prodi</p>
+        </div>
 
-            <!-- <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+        <!-- <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
                 <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
                     <i class="fa-solid fa-clock-rotate-left text-blue-600"></i>
                 </div>
@@ -129,7 +143,9 @@
                         </td>
 
                         <td class="px-6 py-4 text-center">
-                            {{ $mhs->prodi }}
+                            <span class="px-3 py-1 bg-blue-50 text-blue-600 text-[11px] font-semibold rounded-full border border-blue-100">
+                                {{ $mhs->prodi }}
+                            </span>
                         </td>
 
                         <td class="px-6 py-4 text-center">
@@ -137,9 +153,8 @@
                             <div class="flex items-center justify-center gap-1.5">
                                 {{-- DETAIL --}}
                                 <button
-                                    onclick="openModal('{{ $mhs->nim }}', '{{ $mhs->username }}')"
-                                    class="w-9 h-9 flex items-center justify-center rounded-lg 
-                                            bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors">
+                                    onclick="openModal('{{ $mhs->nim }}', '{{ $mhs->username }}', '{{ $mhs->prodi }}')"
+                                    class="text-gray-400 hover:text-yellow-600 mx-1">
 
                                     <i class="fa-solid fa-eye text-sm"></i>
 
@@ -147,25 +162,22 @@
 
                                 {{-- EDIT --}}
                                 <a href="{{ route('admin.manajemen_mahasiswa.edit', $mhs->nim) }}"
-                                    class="w-9 h-9 flex items-center justify-center rounded-lg 
-                                        bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors">
-
+                                    class="text-gray-400 hover:text-blue-600 mx-1">
                                     <i class="fa-solid fa-pen text-sm"></i>
-
                                 </a>
 
                                 {{-- DELETE --}}
-                                <form action="{{ route('admin.manajemen_mahasiswa.destroy', $mhs->nim) }}"
+                                <form id="delete-form-{{ $mhs->nim }}"
+                                    action="{{ route('admin.manajemen_mahasiswa.destroy', $mhs->nim) }}"
                                     method="POST"
                                     class="inline">
 
                                     @csrf
                                     @method('DELETE')
 
-                                    <button type="submit"
-                                        onclick="return confirm('Yakin ingin menghapus data ini?')"
-                                        class="w-9 h-9 flex items-center justify-center rounded-lg 
-                                                bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors">
+                                    <button type="button"
+                                        onclick="confirmDelete(event, '{{ $mhs->nim }}')"
+                                        class="text-gray-400 hover:text-red-600 mx-1">
 
                                         <i class="fa-solid fa-trash text-sm"></i>
 
@@ -225,5 +237,99 @@
         </div>
     </div>
 
+    <!-- MODAL DETAIL -->
+    <div id="detailModal"
+        class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md">
+
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Detail Mahasiswa</h2>
+
+                <button onclick="closeModal()" class="text-gray-500">
+                    ✕
+                </button>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <p class="text-sm text-gray-500">NIM</p>
+                    <p id="modalNim" class="font-semibold"></p>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">Username</p>
+                    <p id="modalUsername" class="font-semibold"></p>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">Prodi</p>
+                    <p id="modalProdi" class="font-semibold"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function openModal(nim, username, prodi) {
+            document.getElementById('modalNim').innerText = nim;
+            document.getElementById('modalUsername').innerText = username;
+            document.getElementById('modalProdi').innerText = prodi;
+
+            const modal = document.getElementById('detailModal');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('detailModal');
+
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+    </script>
+
+    <script>
+        function confirmDelete(event, nim) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Hapus Data?',
+                text: "Data mahasiswa akan dihapus permanen.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#FFC107',
+                cancelButtonColor: '#d1d5db',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    document.getElementById(
+                        'delete-form-' + nim
+                    ).submit();
+
+                }
+
+            });
+        }
+    </script>
+
+    @if(session('success'))
+
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: '{{ session("success") }}',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    </script>
+
+    @endif
 </div>
 @endsection

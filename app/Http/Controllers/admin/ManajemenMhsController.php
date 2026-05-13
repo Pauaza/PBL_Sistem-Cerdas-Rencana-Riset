@@ -68,7 +68,7 @@ class ManajemenMhsController extends Controller
         $request->validate([
             'nim' => 'required|string',
             'username' => 'required|string',
-            'prodi' => 'nullable|string',
+            'prodi' => 'required|string',
             'password' => 'nullable|string|min:8',
         ], [
             'nim.required' => 'NIM wajib diisi',
