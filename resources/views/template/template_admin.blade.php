@@ -289,6 +289,78 @@
         .full-height {
             min-height: calc(100vh - 80px);
         }
+
+        /* ___________________________
+            
+            TOGGLE BUTTON
+        ______________________________ */
+        .toggle-sidebar {
+            position: fixed;
+            top: 20px;
+            left: 240px;
+            z-index: 999;
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* ===============================
+   MAIN WRAPPER
+================================= */
+        .main-wrapper {
+            margin-left: var(--sidebar-w);
+            width: calc(100% - var(--sidebar-w));
+            transition: all 0.3s ease;
+        }
+
+        /* Saat sidebar ditutup */
+        .main-wrapper.full {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        /* ===============================
+   MOBILE RESPONSIVE
+================================= */
+        @media (max-width: 768px) {
+
+            /* Sidebar jadi overlay */
+            .sidebar {
+                transform: translateX(-100%);
+                width: 240px;
+                z-index: 999;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            /* Main content full */
+            .main-wrapper {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+
+            /* Tombol toggle */
+            .toggle-sidebar {
+                left: 16px !important;
+                top: 16px;
+            }
+
+            /* Sembunyikan history panel */
+            .history-panel {
+                display: none;
+            }
+        }
     </style>
     @stack('styles')
 </head>
@@ -421,19 +493,40 @@
             const sidebar = document.querySelector('.sidebar');
             const mainWrapper = document.querySelector('.main-wrapper');
 
-
             toggleSidebar.addEventListener('click', () => {
-                sidebar.classList.toggle('collapsed');
-                mainWrapper.classList.toggle('full');
 
-                // Ubah icon
-                const icon = toggleSidebar.querySelector('i');
-                if (sidebar.classList.contains('collapsed')) {
-                    icon.classList.replace('fa-chevron-left', 'fa-chevron-right');
-                    toggleSidebar.style.left = '0';
+                // Desktop
+                if (window.innerWidth > 768) {
+
+                    sidebar.classList.toggle('collapsed');
+                    mainWrapper.classList.toggle('full');
+
+                    const icon = toggleSidebar.querySelector('i');
+
+                    if (sidebar.classList.contains('collapsed')) {
+
+                        icon.classList.replace(
+                            'fa-chevron-left',
+                            'fa-chevron-right'
+                        );
+
+                        toggleSidebar.style.left = '10px';
+
+                    } else {
+
+                        icon.classList.replace(
+                            'fa-chevron-right',
+                            'fa-chevron-left'
+                        );
+
+                        toggleSidebar.style.left = '240px';
+                    }
+
                 } else {
-                    icon.classList.replace('fa-chevron-right', 'fa-chevron-left');
-                    toggleSidebar.style.left = '240px';
+
+                    // Mobile
+                    sidebar.classList.toggle('show');
+
                 }
             });
         });
