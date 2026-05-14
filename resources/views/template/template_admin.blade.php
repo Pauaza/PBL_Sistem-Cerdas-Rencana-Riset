@@ -392,7 +392,7 @@
                 <div class="sub-menu">
 
                     {{-- Navigasi ke Manajemen Dosen --}}
-                    <a href="{{ route('admin.manajemen_dosen') }}"
+                    <a href="{{ route('admin.manajemen_dosen.index') }}"
                         class="sub-item {{ request()->is('admin/manajemen-dosen*') ? 'active' : '' }}">
                         <i class="fa-solid fa-database"></i>
                         <span>Dosen</span>

@@ -33,7 +33,7 @@ class ManajemenDosenController extends Controller
         $totalLab = \App\Models\LabDosen::count();
         $totalSkripsi = \App\Models\SkripsiAlumni::count();
 
-        return view('admin.manajemen_dosen', compact(
+        return view('admin.manajemen_dosen.index', compact(
             'dosen',
             'totalDosen',
             'totalPenelitian',
@@ -75,7 +75,7 @@ class ManajemenDosenController extends Controller
             'jumlah_skripsi_alumni' => $request->jumlah_skripsi_alumni,
         ]);
 
-        return redirect()->route('admin.manajemen_dosen')
+        return redirect()->route('admin.manajemen_dosen.index')
             ->with('success', 'Dosen berhasil dibuat.');
     }
 
@@ -121,15 +121,15 @@ class ManajemenDosenController extends Controller
             'jumlah_skripsi_alumni' => $request->jumlah_skripsi_alumni,
         ]);
 
-        return redirect()->route('admin.manajemen_dosen')
+        return redirect()->route('admin.manajemen_dosen.index')
             ->with('success', 'Dosen berhasil diubah.');
     }
 
-    public function destroy($id)
+    public function destroy($id_dosen)
     {
-        Dosen::destroy($id);
+        Dosen::destroy($id_dosen);
 
-        return redirect()->route('admin.manajemen_dosen')
+        return redirect()->route('admin.manajemen_dosen.index')
             ->with('success', 'Dosen berhasil dihapus.');
     }
 }
