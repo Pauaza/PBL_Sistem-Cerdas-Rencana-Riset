@@ -35,6 +35,8 @@ Route::middleware('auth:mahasiswa,admin')->group(function () {
             return view('mahasiswa.dashboard');
         })->name('mahasiswa.dashboard');
 
+        Route::get('/profile', [MahasiswaController::class, 'profile'])
+            ->name('mahasiswa.profile');
 
         Route::post('/hasil-rekomendasi', [MahasiswaController::class, 'hasil'])
             ->name('mahasiswa.hasil_rekomendasi');

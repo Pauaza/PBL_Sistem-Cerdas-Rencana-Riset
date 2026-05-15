@@ -281,6 +281,13 @@
             <div id="dropdownMenu"
                 class="hidden absolute bottom-14 right-0 w-40 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-50">
 
+                <a href="{{ route('mahasiswa.profile') }}"
+                    class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2 transition block">
+
+                    <i class="fa-solid fa-user"></i>
+                    Lihat Profil
+                </a>
+
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
 

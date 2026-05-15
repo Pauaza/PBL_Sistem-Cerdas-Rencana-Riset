@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Dosen;
+use Illuminate\Support\Facades\Auth;
 
 class MahasiswaController extends Controller
 {
@@ -31,5 +32,12 @@ class MahasiswaController extends Controller
                     ->findOrFail($id);
 
         return view('mahasiswa.dosen', compact('dosen'));
+    }
+
+    public function profile()
+    {
+        $mahasiswa = Auth::guard('mahasiswa')->user();
+
+        return view('mahasiswa.profile', compact('mahasiswa'));
     }
 }
