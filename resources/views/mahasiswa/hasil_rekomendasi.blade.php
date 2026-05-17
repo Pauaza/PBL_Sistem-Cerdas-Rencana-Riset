@@ -49,12 +49,8 @@ tailwind.config = {
 
 <div class="full-height px-12 pt-2 pb-10 font-sans">
 
-    <!-- WRAPPER BIAR RAPI -->
     <div class="max-w-6xl mx-auto">
 
-        <!-- ===================== -->
-        <!-- HEADER -->
-        <!-- ===================== -->
         <h1 class="text-4xl font-bold text-gray-800">
             Hasil Rekomendasi
         </h1>
@@ -67,42 +63,27 @@ tailwind.config = {
             Sistem telah menganalisis topik yang Anda masukkan dan menghasilkan rekomendasi judul skripsi beserta dosen pembimbing yang sesuai dengan bidang penelitian Anda.
         </p>
 
-        <!-- ===================== -->
-        <!-- JUDUL REKOMENDASI -->
-        <!-- ===================== -->
         <div class="mt-10">
 
             <h3 class="text-sm font-semibold text-orange-600 mb-4">
-                Rekomendasi Judul Skripsi
+                Rekomendasi Judul Skripsi  (Generative AI)
             </h3>
 
             <div class="space-y-4">
 
+                {{-- Perulangan Foreach untuk melakukan render otomatis 3 judul dari Gemini API --}}
+                @foreach($rekomendasiJudul as $index => $judul)
                 <div class="flex items-center gap-4">
-                    <span class="text-2xl font-bold text-gray-700">1</span>
-                    <div class="bg-white/80 backdrop-blur-md px-5 py-4 rounded-xl shadow w-full">
-                        Analisis {{ $topikSafe }} Menggunakan Metode Data Mining
+                    <span class="text-2xl font-bold text-gray-700 w-6">{{ $index + 1 }}</span>
+                    <div class="bg-white/80 backdrop-blur-md px-5 py-4 rounded-xl shadow w-full text-gray-800 font-medium text-lg border border-gray-100">
+                        {{ $judul }}
                     </div>
                 </div>
-
-                <div class="flex items-center gap-4">
-                    <span class="text-2xl font-bold text-gray-700">2</span>
-                    <div class="bg-white/80 backdrop-blur-md px-5 py-4 rounded-xl shadow w-full">
-                        Penerapan Machine Learning untuk {{ $topikSafe }}
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-4">
-                    <span class="text-2xl font-bold text-gray-700">3</span>
-                    <div class="bg-white/80 backdrop-blur-md px-5 py-4 rounded-xl shadow w-full">
-                        Analisis Data untuk Mengidentifikasi Faktor pada {{ $topikSafe }}
-                    </div>
-                </div>
+                @endforeach
 
             </div>
         </div>
 
-        <!-- DOSEN -->
         <div class="mt-12">
 
             <h3 class="text-sm font-semibold text-orange-600 mb-4">
@@ -111,7 +92,6 @@ tailwind.config = {
 
             <div class="flex gap-6 overflow-x-auto scroll-dosen pb-4">
 
-                <!-- CARD 1 -->
                 <a href="{{ route('dosen.show', 1) }}"
                 class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 
                         flex justify-between items-center hover:shadow-xl 
@@ -133,7 +113,6 @@ tailwind.config = {
 
                 </a>
 
-                <!-- CARD 2 -->
                 <a href="{{ route('dosen.show', 2) }}"
                 class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 
                         flex justify-between items-center hover:shadow-xl 
@@ -155,7 +134,6 @@ tailwind.config = {
 
                 </a>
 
-                <!-- CARD 3 -->
                 <a href="{{ route('dosen.show', 3) }}"
                 class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 
                         flex justify-between items-center hover:shadow-xl 
@@ -181,9 +159,6 @@ tailwind.config = {
 
         </div>
 
-        <!-- ===================== -->
-        <!-- BUTTON -->
-        <!-- ===================== -->
         <div class="flex gap-4 mt-12">
 
             <button class="px-6 py-3 rounded-full bg-gray-700 text-white">

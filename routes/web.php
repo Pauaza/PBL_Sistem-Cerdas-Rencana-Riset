@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\admin\ManajemenDosenController;
 use App\Http\Controllers\admin\ManajemenMhsController;
+use App\Http\Controllers\AI\TitleGeneratorController;
 
 
 // Perbaikan Typo: Route::get (bukan Route: :get)
@@ -17,15 +18,6 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Route::get('/', function () { return view('mahasiswa.beranda_mahasiswa');});
-
-
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/dashboard', function () {
-//         return view('dashboard'); // buat file ini nanti
-//     })->name('dashboard');
-// });
 // --- Protected Routes (Hanya bisa diakses jika sudah login) ---
 Route::middleware('auth:mahasiswa,admin')->group(function () {
 
@@ -66,4 +58,8 @@ Route::middleware('auth:mahasiswa,admin')->group(function () {
             return view('admin.profil');
         })->name('admin.profil');
     });
+
+    // ================= AI Routes =================
+    Route::get('/generate-judul', [TitleGeneratorController::class, 'index'])->name('judul.index');
+    Route::post('/generate-judul', [TitleGeneratorController::class, 'generate'])->name('judul.generate');
 });
