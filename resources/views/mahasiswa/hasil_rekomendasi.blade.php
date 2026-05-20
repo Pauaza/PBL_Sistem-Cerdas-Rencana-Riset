@@ -92,68 +92,35 @@ tailwind.config = {
 
             <div class="flex gap-6 overflow-x-auto scroll-dosen pb-4">
 
-                <a href="{{ route('dosen.show', 1) }}"
-                class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 
-                        flex justify-between items-center hover:shadow-xl 
-                        hover:-translate-y-1 transition duration-300 border border-gray-100">
+                @if(isset($rekomendasiDosen) && count($rekomendasiDosen) > 0)
+                    @foreach($rekomendasiDosen as $dosen)
+                    {{-- Link sementara diarahkan ke # karena kita belum punya ID dosen dari dataset python --}}
+                    <a href="#"
+                    class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 
+                            flex justify-between items-center hover:shadow-xl 
+                            hover:-translate-y-1 transition duration-300 border border-gray-100">
 
-                    <div>
-                        <h4 class="font-bold text-lg text-gray-800">
-                            Indah Sulistyo, S.Pd., M.Pd
-                        </h4>
+                        <div>
+                            <h4 class="font-bold text-lg text-gray-800">
+                                {{ $dosen['Nama_Dosen'] }}
+                            </h4>
 
-                        <p class="text-sm text-gray-500 mt-2">
-                            Sesuai dengan topik {{ $topikSafe }}
-                        </p>
+                            <p class="text-sm text-gray-500 mt-2">
+                                Berdasarkan kecocokan algoritma EDAS
+                            </p>
+                        </div>
+
+                        <div class="bg-yellow-400 text-black font-bold text-xl px-4 py-6 rounded-lg">
+                            {{ number_format($dosen['Skor_AS'] * 100, 1) }}%
+                        </div>
+
+                    </a>
+                    @endforeach
+                @else
+                    <div class="p-6 bg-red-100 text-red-600 rounded-xl w-full text-center">
+                        Maaf, sistem cerdas gagal memuat rekomendasi dosen. Pastikan API Google Colab sudah berjalan.
                     </div>
-
-                    <div class="bg-yellow-400 text-black font-bold text-xl px-4 py-6 rounded-lg">
-                        96%
-                    </div>
-
-                </a>
-
-                <a href="{{ route('dosen.show', 2) }}"
-                class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 
-                        flex justify-between items-center hover:shadow-xl 
-                        hover:-translate-y-1 transition duration-300 border border-gray-100">
-
-                    <div>
-                        <h4 class="font-bold text-lg text-gray-800">
-                            Arif Subandi, S.Pd., M.Pd
-                        </h4>
-
-                        <p class="text-sm text-gray-500 mt-2">
-                            Relevan dengan penelitian Anda
-                        </p>
-                    </div>
-
-                    <div class="bg-yellow-400 text-black font-bold text-xl px-4 py-6 rounded-lg">
-                        87%
-                    </div>
-
-                </a>
-
-                <a href="{{ route('dosen.show', 3) }}"
-                class="min-w-[320px] bg-white/80 backdrop-blur-md rounded-2xl shadow p-6 
-                        flex justify-between items-center hover:shadow-xl 
-                        hover:-translate-y-1 transition duration-300 border border-gray-100">
-
-                    <div>
-                        <h4 class="font-bold text-lg text-gray-800">
-                            Adinda Negara, S.Pd
-                        </h4>
-
-                        <p class="text-sm text-gray-500 mt-2">
-                            Cocok untuk bidang analisis data
-                        </p>
-                    </div>
-
-                    <div class="bg-yellow-400 text-black font-bold text-xl px-4 py-6 rounded-lg">
-                        70%
-                    </div>
-
-                </a>
+                @endif
 
             </div>
 
