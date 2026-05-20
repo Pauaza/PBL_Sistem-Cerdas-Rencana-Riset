@@ -29,27 +29,52 @@ class MahasiswaController extends Controller
 
         $topik = $request->input('topik');
         $deskripsi = $request->input('deskripsi');
+        $deskripsiBersih = strip_tags($deskripsi); // Bersihkan teks untuk pemrosesan AI
 
-        // Tembak API Python FastAPI yang berjalan di port 8001
-        $response = Http::post('http://127.0.0.1:8001/api/generate-titles', [
-            'topik' => $topik,
-            'deskripsi' => $deskripsi,
-        ]);
-
+        // ========================================================
+        // 1. TEMBAK API GENERATOR JUDUL (Port 8001)
+        // ========================================================
         $rekomendasiJudul = [];
-        if ($response->successful()) {
-            $rekomendasiJudul = $response->json()['judul'] ?? [];
-        } else {
-            // Fallback apabila server python/Gemini API mengalami gangguan
-            $rekomendasiJudul = [
-                'Gagal membuat judul otomatis melalui AI Engine.',
-                'Pastikan server Uvicorn Python di port 8001 sudah aktif.',
-                'Periksa kembali konfigurasi API Key Gemini Anda.'
-            ];
+        try {
+            $responseJudul = Http::post('http://127.0.0.1:8001/api/generate-titles', [
+                'topik' => $topik,
+                'deskripsi' => $deskripsi,
+            ]);
+
+            if ($responseJudul->successful()) {
+                $rekomendasiJudul = $responseJudul->json()['judul'] ?? [];
+            } else {
+                $rekomendasiJudul = ['Gagal memuat rekomendasi judul otomatis dari API lokal.'];
+            }
+        } catch (\Exception $e) {
+            $rekomendasiJudul = ['Koneksi ke server generator judul (port 8001) terputus.'];
         }
 
-        // Lempar variabel rekomendasiJudul ke view menggunakan compact
-        return view('mahasiswa.hasil_rekomendasi', compact('topik', 'deskripsi', 'rekomendasiJudul'));
+        // ========================================================
+        // 2. TEMBAK API REKOMENDASI DOSEN EDAS (Google Colab / Ngrok)
+        // ========================================================
+        $rekomendasiDosen = [];
+        $apiEdasUrl = 'https://each-saturate-grievance.ngrok-free.dev/api/evaluasi';
+
+        try {
+            $responseDosen = Http::timeout(45)->post($apiEdasUrl, [
+                'topik' => $topik,
+                'deskripsi' => $deskripsiBersih,
+            ]);
+
+            if ($responseDosen->successful()) {
+                $hasilApiDosen = $responseDosen->json();
+                $rekomendasiDosen = $hasilApiDosen['rekomendasi'] ?? [];
+            }
+        } catch (\Exception $e) {
+            // Jika API Colab mati, biarkan array kosong agar view menampilkan pesan error yang rapi
+            $rekomendasiDosen = [];
+        }
+
+        // ========================================================
+        // 3. KIRIM SEMUA DATA KE VIEW
+        // ========================================================
+        return view('mahasiswa.hasil_rekomendasi', compact('topik', 'deskripsi', 'rekomendasiJudul', 'rekomendasiDosen'));
     }
 
     public function detailDosen($id)
