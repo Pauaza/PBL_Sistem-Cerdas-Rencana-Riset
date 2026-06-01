@@ -17,6 +17,11 @@ class History extends Model
         'hasil_rekomendasi'
     ];
 
+    // Memberitahu Laravel agar memformat data ini sebagai JSON/Array
+    protected $casts = [
+        'hasil_rekomendasi' => 'array', 
+    ];
+
     // Relasi balik ke Mahasiswa
     public function mahasiswa()
     {

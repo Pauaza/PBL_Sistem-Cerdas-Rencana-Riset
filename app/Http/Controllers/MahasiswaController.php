@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Dosen;
+use App\Models\History;
+use App\Models\Mahasiswa;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http; 
 
@@ -71,10 +73,42 @@ class MahasiswaController extends Controller
             $rekomendasiDosen = [];
         }
 
+        // menyimpan hasil rekomendasi ke database untuk histori mahasiswa
+        /** @var \App\Models\Mahasiswa $mahasiswa */
+        $mahasiswa = Auth::guard('mahasiswa')->user(); 
+        
+        if(!empty($rekomendasiJudul) || !empty($rekomendasiDosen)) {
+            // menggunakan histories() karena sudah didefinisikan relasi di model
+            $mahasiswa->histories()->create([
+                'topik' => $topik,
+                'deskripsi_ide' => $deskripsi,
+                'metode_pilihan' => null,
+                'hasil_rekomendasi' => [ // akan otomatis di-encode oleh fitur $casts di model
+                    'judul' => $rekomendasiJudul,
+                    'dosen' => $rekomendasiDosen
+                ]
+            ]);
+        }
+
         // ========================================================
         // 3. KIRIM SEMUA DATA KE VIEW
         // ========================================================
         return view('mahasiswa.hasil_rekomendasi', compact('topik', 'deskripsi', 'rekomendasiJudul', 'rekomendasiDosen'));
+    }
+
+    // method untuk detail history
+    public function detailHistory($id)
+    {
+        /** @var \App\Models\Mahasiswa $mahasiswa */
+        $mahasiswa = Auth::guard('mahasiswa')->user();
+
+        // Cari histori berdasarkan ID yang HANYA dimiliki oleh mahasiswa ini via relasi
+        $history = $mahasiswa->histories()->findOrFail($id);
+
+        $rekomendasiJudul = $history->hasil_rekomendasi['judul'] ?? [];
+        $rekomendasiDosen = $history->hasil_rekomendasi['dosen'] ?? [];
+
+        return view('mahasiswa.detail_history', compact('history', 'rekomendasiJudul', 'rekomendasiDosen'));
     }
 
     public function detailDosen($id)
