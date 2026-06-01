@@ -34,7 +34,7 @@ tailwind.config = {
 
 @section('content')
 
-<div class="flex flex-col lg:flex-row items-center justify-between full-height px-6 lg:px-12 gap-10">
+<div class="w-full flex flex-col lg:flex-row items-center justify-between full-height px-6 lg:px-12 gap-10">
 
     <!-- KIRI -->
    <div class="w-full lg:w-1/2 max-w-xl flex flex-col">

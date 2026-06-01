@@ -39,6 +39,10 @@ Route::middleware('auth:mahasiswa,admin')->group(function () {
         // DETAIL DOSEN
         Route::get('/dosen/{id}', [MahasiswaController::class, 'detailDosen'])
             ->name('dosen.show');
+        
+        // DETAIL HISTORY
+        Route::get('/mahasiswa/history/{id}', [MahasiswaController::class, 'detailHistory'])
+            ->name('mahasiswa.history.show');
     });
 
     // ================= ADMIN =================

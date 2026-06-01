@@ -17,11 +17,11 @@
         }
 
         :root {
-            --primary-yellow: #FFC107; /* Kuning JTI */
+            --primary-yellow: #FFC107;
             --sidebar-bg: #F8FAFC;
             --text-dark: #333333;
-            --sidebar-w: 240px; /* Lebar sesuai template admin baru */
-            --content-bg: #F5F0E8;
+            --sidebar-w: 240px;
+            --content-bg: #FFFFFF;
             --panel-bg: #FAF4EA;
         }
 
@@ -31,10 +31,11 @@
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
+            overflow-x: hidden; /* Mencegah munculnya scroll horizontal saat animasi */
         }
 
         /* ─────────────────────────────
-            SIDEBAR (Sama dengan Admin)
+            SIDEBAR KIRI
         ───────────────────────────── */
         .sidebar {
             width: var(--sidebar-w);
@@ -44,17 +45,15 @@
             flex-direction: column;
             padding: 24px 16px;
             position: fixed;
-            height: 100vh;
+            left: 0;
+            top: 0;
+            bottom: 0;
             z-index: 100;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
-        .history-panel.collapsed {
-            width: 0 !important;
-            min-width: 0 !important;
-            padding: 0;
-            overflow: hidden;
-            border-left: none;
+        .sidebar.collapsed {
+            transform: translateX(-100%);
         }
 
         .sidebar-top {
@@ -123,25 +122,64 @@
         .user-info .id { color: #888; }
 
         /* ─────────────────────────────
-            MAIN AREA & TOGGLES
+            MAIN AREA & KONTEN
         ───────────────────────────── */
         .main-wrapper {
             margin-left: var(--sidebar-w);
             flex: 1;
             display: flex;
             min-height: 100vh;
-            transition: all 0.3s ease;
-            overflow: hidden;
+            transition: margin-left 0.3s ease; 
+            /* HAPUS 'width: 100%;' di sini agar halaman tidak meluber ke kanan */
         }
 
         .main-wrapper.full {
             margin-left: 0;
         }
 
+        .content-area {
+            flex: 1;
+            padding: 40px 44px;
+            background: #FFFFFF; 
+        }
+
+        /* ─────────────────────────────
+            HISTORY PANEL (Kanan)
+        ───────────────────────────── */
+       .history-panel {
+            width: 210px;
+            min-width: 210px;
+            flex-shrink: 0;
+            background: var(--panel-bg);
+            border-left: 1px solid #EDE8DF;
+            padding: 24px 16px; /* 👈 INI KUNCI UTAMANYA: Mengembalikan jarak kiri-kanan */
+            display: flex;
+            flex-direction: column;
+            transition: margin-right 0.3s ease, opacity 0.3s ease;
+            
+            /* Tambahan agar panel selalu terlihat saat Anda men-scroll konten tengah */
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .history-panel.collapsed {
+            margin-right: -210px !important; 
+            min-width: 0 !important;
+            padding: 0 !important; /* Hapus semua padding (atas, bawah, kiri, kanan) */
+            margin: 0 !important;
+            opacity: 0 !important;
+            border: none !important;
+            overflow: hidden !important; /* KUNCI UTAMA: Memaksa isi panel ikut terlipat */
+        }
+
+        /* ─────────────────────────────
+            TOMBOL TOGGLE (KIRI & KANAN)
+        ───────────────────────────── */
         .toggle-sidebar {
             position: fixed;
             top: 50%;
-            left: 240px; /* Sesuai lebar sidebar */
+            left: 240px;
             transform: translateY(-50%);
             width: 26px;
             height: 60px;
@@ -157,43 +195,9 @@
             transition: left 0.3s ease;
         }
 
-        .content-area {
-            flex: 1;
-            padding: 40px 44px;
-            background: var(--content-bg);
-            overflow-x: hidden;
-        }
-
-        /* ─────────────────────────────
-            HISTORY PANEL (Kanan)
-        ───────────────────────────── */
-       .history-panel {
-            width: 210px;
-            min-width: 210px;
-            flex-shrink: 0;
-            background: var(--panel-bg);
-            border-left: 1px solid #EDE8DF;
-            padding: 24px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .history-panel.collapsed {
-            width: 0;
-            padding: 0;
-            overflow: hidden;
-            border-left: none;
-        }
-
-        .history-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 13px;
-            font-weight: 700;
-            white-space: nowrap;
+        /* PENAMBAHAN BARU: Memindahkan tombol ke dinding saat ditutup */
+        .toggle-sidebar.collapsed {
+            left: 0; 
         }
 
         .toggle-history {
@@ -215,28 +219,11 @@
             transition: right 0.3s ease;
         }
 
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+        /* PENAMBAHAN BARU: Memindahkan tombol ke dinding saat ditutup */
+        .toggle-history.collapsed {
+            right: 0;
         }
 
-        .history-item {
-            font-size: 12px;
-            color: #B45309;
-            padding: 8px 10px;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: background .15s;
-            display: block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .history-item:hover {
-            background: rgba(217, 119, 6, .08);
-        }
     </style>
     @stack('styles')
 </head>
@@ -333,33 +320,149 @@
             @yield('content')
         </main>
 
-        {{-- HISTORY PANEL --}}
-        <aside class="history-panel">
-            <div class="history-header">
-                <span>Histori Rekomendasi</span>
-            </div>
-            <div class="history-list">
-                @isset($histories)
-                    @forelse($histories as $item)
-                        <a href="{{ route('rekomendasi.show', $item->id) }}" class="history-item" title="{{ $item->judul }}">
-                            {{ Str::limit($item->judul, 25) }}
-                        </a>
-                    @empty
-                        <span style="font-size:11px;color:#aaa;">Belum ada histori.</span>
-                    @endforelse
-                @else
-                    <a href="#" class="history-item">Sistem rekomendasi pencarian...</a>
-                    <a href="#" class="history-item">Pemanfaatan teknologi hijau...</a>
-                @endisset
-            </div>
-        </aside>
-
-        {{-- Tombol Toggle History --}}
+        {{-- Tombol Toggle History Panel --}}
         <button class="toggle-history" id="toggleHistory">
             <i class="fa-solid fa-chevron-right"></i>
         </button>
-    </div>
+        
+        {{-- HISTORY PANEL (Kanan) --}}
+        <aside class="history-panel flex flex-col overflow-hidden">
+            {{-- Header Sidebar Kanan --}}
+            <div class="flex items-center justify-between pb-3 border-b border-gray-200/60 mb-4 mt-2">
+                <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left text-[#FFC107]"></i> Histori
+                </h3>
+            </div>
 
+            {{-- List Histori (Scrollable) --}}
+            <div class="history-list flex-1 overflow-y-auto pr-1 pb-20 space-y-3 custom-scrollbar">
+                @if(isset($histories) && $histories->count() > 0)
+                    @foreach($histories as $item)
+                        <button type="button" 
+                                onclick="window.openHistoryModal({{ $item->id }})"
+                                class="group relative w-full text-left bg-white p-3 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col gap-1.5">
+                            
+                            {{-- Aksen Garis Kiri saat Hover --}}
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                            {{-- Judul Topik --}}
+                            <span class="text-xs font-semibold text-gray-700 group-hover:text-orange-600 line-clamp-2 leading-snug">
+                                {{ $item->topik }}
+                            </span>
+                            
+                            {{-- Tanggal / Waktu --}}
+                            <span class="text-[10px] text-gray-400 font-medium flex items-center gap-1.5 mt-1">
+                                <i class="fa-regular fa-calendar-days"></i> 
+                                {{ $item->created_at ? $item->created_at->format('d M Y') : 'Baru saja' }}
+                            </span>
+                        </button>
+                    @endforeach
+                @else
+                    <div class="flex flex-col items-center justify-center text-center py-10 px-2 opacity-60">
+                        <i class="fa-solid fa-inbox text-3xl text-gray-300 mb-2"></i>
+                        <span class="text-xs text-gray-500 font-medium">Belum ada histori<br>rekomendasi.</span>
+                    </div>
+                @endif
+            </div>
+        </aside>
+
+    {{-- MODAL CONTAINER UNTUK HISTORY --}}
+    @if(isset($histories) && $histories->count() > 0)
+        @foreach($histories as $item)
+            <div id="modal-history-{{ $item->id }}" 
+                class="hidden fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-[9999] flex items-center justify-center p-4 transition-all duration-300">
+                
+                {{-- Card Box Modal --}}
+                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col overflow-hidden relative border border-gray-100 text-left scale-95 transition-transform duration-300">
+                    
+                    {{-- Tombol Tutup (X) di Sudut Atas --}}
+                    <button onclick="closeHistoryModal({{ $item->id }})" 
+                            class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 hover:text-gray-600 transition duration-200 z-50">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                    </button>
+
+                    {{-- Bagian Kepala Modal (Header) --}}
+                    <div class="p-6 border-b border-gray-100 bg-slate-50/60 pr-12">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 mb-2">
+                            <i class="fa-solid fa-clock-rotate-left mr-1.5"></i>
+                            {{ $item->created_at ? $item->created_at->format('d M Y, H:i') : 'Baru saja' }}
+                        </span>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug">
+                            {{ $item->topik }}
+                        </h3>
+                    </div>
+
+                    {{-- Bagian Isi Modal (Scrollable Content) --}}
+                    <div class="p-6 overflow-y-auto space-y-5 flex-1 max-h-[calc(85vh-140px)]">
+                        
+                        {{-- Deskripsi Ide --}}
+                        <div>
+                            <h4 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Deskripsi Ide Penelitian</h4>
+                            <div class="bg-slate-50 border border-gray-200/50 p-4 rounded-xl text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+                                {!! nl2br(e($item->deskripsi_ide)) !!}
+                            </div>
+                        </div>
+
+                        {{-- Baris Grid Hasil API --}}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            
+                            {{-- Blok Hasil Rekomendasi Judul --}}
+                            <div class="space-y-2">
+                                <h4 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
+                                    <i class="fa-solid fa-book text-[#FFC107]"></i> Rekomendasi Judul
+                                </h4>
+                                @php $judulArr = $item->hasil_rekomendasi['judul'] ?? []; @endphp
+                                @if(count($judulArr) > 0)
+                                    <div class="space-y-1.5">
+                                        @foreach($judulArr as $judul)
+                                            <div class="p-3 bg-amber-50/40 border border-amber-100/60 rounded-xl text-xs text-gray-800 font-medium leading-normal shadow-2xs">
+                                                {{ $judul }}
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p class="text-xs text-gray-400 italic p-1">Tidak ada rekomendasi judul.</p>
+                                @endif
+                            </div>
+
+                            {{-- Blok Hasil Rekomendasi Dosen --}}
+                            <div class="space-y-2">
+                                <h4 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
+                                    <i class="fa-solid fa-chalkboard-user text-[#FFC107]"></i> Rekomendasi Dosen
+                                </h4>
+                                @php $dosenArr = $item->hasil_rekomendasi['dosen'] ?? []; @endphp
+                                @if(count($dosenArr) > 0)
+                                    <div class="space-y-1.5">
+                                        @foreach($dosenArr as $dosen)
+                                            <div class="p-3 border border-gray-200/60 rounded-xl bg-white shadow-2xs flex flex-col gap-0.5">
+                                                <span class="font-bold text-xs text-gray-800">{{ $dosen['nama'] ?? 'Nama Dosen' }}</span>
+                                                <span class="text-[10px] text-gray-400 font-medium">
+                                                    Keahlian/Skor: {{ $dosen['keahlian'] ?? ($dosen['skor'] ?? '-') }}
+                                                </span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p class="text-xs text-gray-400 italic p-1">Tidak ada rekomendasi dosen.</p>
+                                @endif
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {{-- Bagian Kaki Modal (Footer) --}}
+                    <div class="p-4 border-t border-gray-100 bg-slate-50 flex justify-end">
+                        <button onclick="closeHistoryModal({{ $item->id }})" 
+                                class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl text-xs font-semibold transition duration-200 cursor-pointer">
+                            Tutup
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        @endforeach
+    @endif
+    
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -371,34 +474,68 @@
             const toggleHistory = document.getElementById('toggleHistory');
 
             // SIDEBAR TOGGLE
+            // TOGGLE KIRI
             toggleSidebar.addEventListener('click', () => {
                 sidebar.classList.toggle('collapsed');
-                mainWrapper.classList.toggle('full');
+                mainWrapper.classList.toggle('full'); // Menyesuaikan margin konten
+                toggleSidebar.classList.toggle('collapsed'); // Memindahkan tombol
                 
                 const icon = toggleSidebar.querySelector('i');
-                if (sidebar.classList.contains('collapsed')) {
-                    icon.classList.replace('fa-chevron-left', 'fa-chevron-right');
-                    toggleSidebar.style.left = '0';
-                } else {
-                    icon.classList.replace('fa-chevron-right', 'fa-chevron-left');
-                    toggleSidebar.style.left = '240px';
-                }
+                icon.classList.toggle('fa-chevron-left');
+                icon.classList.toggle('fa-chevron-right');
             });
 
-            // HISTORY TOGGLE
+            // TOGGLE KANAN
             toggleHistory.addEventListener('click', () => {
-                historyPanel.classList.toggle('collapsed');
-                const icon = toggleHistory.querySelector('i');
+                historyPanel.classList.toggle('collapsed'); // Menyusutkan sidebar kanan
+                toggleHistory.classList.toggle('collapsed'); // Memindahkan tombol
                 
-                if (historyPanel.classList.contains('collapsed')) {
-                    icon.classList.replace('fa-chevron-right', 'fa-chevron-left');
-                    toggleHistory.style.right = '0';
-                } else {
-                    icon.classList.replace('fa-chevron-left', 'fa-chevron-right');
-                    toggleHistory.style.right = '210px';
-                }
+                toggleHistory.style.right = '';
+
+                const icon = toggleHistory.querySelector('i');
+                icon.classList.toggle('fa-chevron-right');
+                icon.classList.toggle('fa-chevron-left');
             });
         });
+
+            // FUNGSI UNTUK MEMBUKA MODAL HISTORI
+            function openHistoryModal(id) {
+                const modal = document.getElementById(`modal-history-${id}`);
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    // Kunci scrolling pada halaman utama saat modal terbuka
+                    document.body.style.overflow = 'hidden'; 
+                    
+                    // Animasi pop-up terasa lebih halus
+                    setTimeout(() => {
+                        modal.firstElementChild.classList.remove('scale-95');
+                        modal.firstElementChild.classList.add('scale-100');
+                    }, 10);
+                }
+            }
+
+            // FUNGSI UNTUK MENUTUP MODAL HISTORI
+            function closeHistoryModal(id) {
+                const modal = document.getElementById(`modal-history-${id}`);
+                if (modal) {
+                    modal.firstElementChild.classList.remove('scale-100');
+                    modal.firstElementChild.classList.add('scale-95');
+                    
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        // Kembalikan scrolling halaman utama
+                        document.body.style.overflow = ''; 
+                    }, 150);
+                }
+            }
+
+            // Klik area luar modal kartu otomatis akan menutup modal
+            document.addEventListener('click', function(event) {
+                if (event.target.id.startsWith('modal-history-')) {
+                    const id = event.target.id.replace('modal-history-', '');
+                    closeHistoryModal(id);
+                }
+            });
     </script>
     @endpush
     @stack('scripts')
