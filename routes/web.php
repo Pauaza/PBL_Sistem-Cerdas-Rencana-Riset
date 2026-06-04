@@ -6,6 +6,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\admin\ManajemenDosenController;
 use App\Http\Controllers\admin\ManajemenMhsController;
 use App\Http\Controllers\AI\TitleGeneratorController;
+use App\Http\Controllers\admin\DashboardController;
 
 
 // Perbaikan Typo: Route::get (bukan Route: :get)
@@ -48,9 +49,8 @@ Route::middleware('auth:mahasiswa,admin')->group(function () {
     // ================= ADMIN =================
     Route::prefix('admin')->group(function () {
 
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('admin.dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])
+            ->name('admin.dashboard');
 
         Route::resource('/manajemen-dosen', ManajemenDosenController::class)
             ->names('admin.manajemen_dosen');

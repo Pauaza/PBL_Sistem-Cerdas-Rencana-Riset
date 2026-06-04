@@ -14,6 +14,10 @@ class ManajemenDosenController extends Controller
 {
     public function index(Request $request)
     {
+        $dosen = Dosen::with('lab')
+            ->withCount('penelitian') // jumlah penelitian
+            ->paginate(10);
+
         $query = Dosen::with(['lab'])
             ->withCount(['penelitian']);
 
@@ -31,7 +35,7 @@ class ManajemenDosenController extends Controller
         if ($request->search) {
             $query->where('nama_dosen', 'like', '%' . $request->search . '%');
         }
-        $dosen = $query->paginate(10);
+         $query->paginate(10);
 
         // CARD
         $totalDosen = Dosen::count();
