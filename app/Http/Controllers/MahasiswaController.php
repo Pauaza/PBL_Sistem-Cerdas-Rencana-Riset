@@ -82,7 +82,6 @@ class MahasiswaController extends Controller
             $mahasiswa->histories()->create([
                 'topik' => $topik,
                 'deskripsi_ide' => $deskripsi,
-                'metode_pilihan' => null,
                 'hasil_rekomendasi' => [ // akan otomatis di-encode oleh fitur $casts di model
                     'judul' => $rekomendasiJudul,
                     'dosen' => $rekomendasiDosen

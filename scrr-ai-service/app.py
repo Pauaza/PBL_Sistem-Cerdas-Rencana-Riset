@@ -7,7 +7,7 @@ import json
 app = FastAPI()
 
 # 💡 Gunakan konfigurasi standar paling basic & aman tanpa client_options
-GENAI_API_KEY = "YOUR_GENAI_API_KEY_HERE"
+GENAI_API_KEY = "MASUKKAN API ANDA DISINI"
 genai.configure(api_key=GENAI_API_KEY)
 
 class TitleRequest(BaseModel):

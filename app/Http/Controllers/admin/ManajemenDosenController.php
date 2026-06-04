@@ -4,17 +4,18 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dosen;
+use App\Models\PenelitianDosen;
+use App\Models\SkripsiAlumni;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ManajemenDosenController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $dosen = Dosen::with('lab')
-            ->withCount('penelitian') // jumlah penelitian
-            ->paginate(10);
+        $query = Dosen::with(['lab'])
+            ->withCount(['penelitian']);
 
         // hitung jumlah skripsi manual (karena 2 pembimbing)
         $dosen = Dosen::with('lab')
@@ -26,6 +27,11 @@ class ManajemenDosenController extends Controller
                     ->orWhereColumn('id_pembimbing_2', 'dosen.id_dosen')
             ])
             ->paginate(10);
+
+        if ($request->search) {
+            $query->where('nama_dosen', 'like', '%' . $request->search . '%');
+        }
+        $dosen = $query->paginate(10);
 
         // CARD
         $totalDosen = Dosen::count();
@@ -131,5 +137,87 @@ class ManajemenDosenController extends Controller
 
         return redirect()->route('admin.manajemen_dosen.index')
             ->with('success', 'Dosen berhasil dihapus.');
+    }
+
+    // =================== PENELITIAN DOSEN ===================
+    public function editPenelitian($id)
+    {
+        $dosen = Dosen::findOrFail($id);
+
+        $penelitian = PenelitianDosen::where(
+            'id_dosen',
+            $id
+        )->get();
+
+        return view(
+            'admin.manajemen_dosen.penelitian',
+            compact('dosen', 'penelitian')
+        );
+    }
+
+    public function storePenelitian(Request $request, $id)
+    {
+        $request->validate([
+            'judul_penelitian' => 'required',
+            'abstrak' => 'required',
+            'tahun_publikasi' => 'required|numeric'
+        ]);
+
+        PenelitianDosen::create([
+            'id_dosen' => $id,
+            'judul_penelitian' => $request->judul_penelitian,
+            'abstrak' => $request->abstrak,
+            'tahun_publikasi' => $request->tahun_publikasi
+        ]);
+
+        return back()->with('success', 'Penelitian berhasil ditambahkan');
+    }
+
+    public function destroyPenelitian($id_penelitian)
+    {
+        PenelitianDosen::findOrFail($id_penelitian)
+            ->delete();
+
+        return back()
+            ->with('success', 'Penelitian berhasil dihapus');
+    }
+
+    // =================== SKRIPSI ALUMNI ===================
+    public function editSkripsi($id)
+    {
+        $dosen = Dosen::findOrFail($id);
+
+        $skripsi = SkripsiAlumni::where('id_pembimbing_1', $id)
+            ->orWhere('id_pembimbing_2', $id)
+            ->get();
+
+        return view(
+            'admin.manajemen_dosen.skripsi',
+            compact('dosen', 'skripsi')
+        );
+    }
+
+    public function storeSkripsi(Request $request, $id)
+    {
+        $request->validate([
+            'judul_skripsi' => 'required'
+        ]);
+
+        SkripsiAlumni::create([
+            'judul_skripsi' => $request->judul_skripsi,
+            'id_pembimbing_1' => $id
+        ]);
+
+        return back()
+            ->with('success', 'Skripsi berhasil ditambahkan');
+    }
+
+    public function destroySkripsi($id_skripsi)
+    {
+        SkripsiAlumni::findOrFail($id_skripsi)
+            ->delete();
+
+        return back()
+            ->with('success', 'Skripsi berhasil dihapus');
     }
 }

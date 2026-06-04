@@ -3,196 +3,205 @@
 @section('title', 'Edit Dosen')
 
 @push('styles')
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 @endpush
 
 @section('content')
 
-<div class="space-y-6 font-sans">
+    <div class="space-y-6 font-sans">
 
-    {{-- HEADER --}}
-    <div class="flex items-center justify-between">
+        {{-- HEADER --}}
+        <div class="flex items-center justify-between">
 
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">
-                Edit Dosen
-            </h1>
-            <p class="text-sm text-gray-500 mt-1">
-                Perbarui informasi data dosen.
-            </p>
-        </div>
-        <a href="{{ route('admin.manajemen_dosen.index') }}"
-            class="flex items-center gap-2 px-4 py-2 bg-gray-100
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">
+                    Edit Dosen
+                </h1>
+                <p class="text-sm text-gray-500 mt-1">
+                    Perbarui informasi data dosen.
+                </p>
+            </div>
+            <a href="{{ route('admin.manajemen_dosen.index') }}"
+                class="flex items-center gap-2 px-4 py-2 bg-gray-100
                   hover:bg-gray-200 rounded-xl text-sm font-semibold
                   text-gray-700 transition-colors">
 
-            <i class="fa-solid fa-arrow-left"></i>
-            Kembali
-        </a>
-    </div>
+                <i class="fa-solid fa-arrow-left"></i>
+                Kembali
+            </a>
+        </div>
 
-    {{-- CARD --}}
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        {{-- CARD --}}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-        {{-- CARD HEADER --}}
-        <div class="px-6 py-5 border-b border-gray-100">
+            {{-- CARD HEADER --}}
+            <div class="px-6 py-5 border-b border-gray-100">
 
-            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4">
 
-                <div class="w-14 h-14 rounded-full bg-blue-100
+                    <div
+                        class="w-14 h-14 rounded-full bg-blue-100
                             text-blue-600 flex items-center justify-center
                             font-bold text-lg">
 
-                    {{ strtoupper(substr($dosen->nama_dosen, 0, 2)) }}
+                        {{ strtoupper(substr($dosen->nama_dosen, 0, 2)) }}
 
-                </div>
+                    </div>
 
-                <div>
-                    <h2 class="text-lg font-bold text-gray-900">
-                        {{ $dosen->nama_dosen }}
-                    </h2>
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900">
+                            {{ $dosen->nama_dosen }}
+                        </h2>
 
-                    <p class="text-sm text-gray-500">
-                        {{ $dosen->lab->nama_lab ?? '-' }}
-                    </p>
+                        <p class="text-sm text-gray-500">
+                            {{ $dosen->lab->nama_lab ?? '-' }}
+                        </p>
+                    </div>
+
                 </div>
 
             </div>
 
-        </div>
+            {{-- FORM --}}
+            <form action="{{ route('admin.manajemen_dosen.update', $dosen->id_dosen) }}" method="POST"
+                class="p-6 space-y-6">
 
-        {{-- FORM --}}
-        <form action="{{ route('admin.manajemen_dosen.update', $dosen->id_dosen) }}"
-            method="POST"
-            class="p-6 space-y-6">
+                @csrf
+                @method('PUT')
 
-            @csrf
-            @method('PUT')
+                {{-- ERROR --}}
+                @if ($errors->any())
 
-            {{-- ERROR --}}
-            @if ($errors->any())
-
-            <div class="bg-red-50 border border-red-100
+                    <div class="bg-red-50 border border-red-100
                             rounded-xl p-4">
 
-                <ul class="space-y-1 text-sm text-red-600">
+                        <ul class="space-y-1 text-sm text-red-600">
 
-                    @foreach ($errors->all() as $error)
-                    <li>• {{ $error }}</li>
-                    @endforeach
+                            @foreach ($errors->all() as $error)
+                                <li>• {{ $error }}</li>
+                            @endforeach
 
-                </ul>
+                        </ul>
 
-            </div>
+                    </div>
 
-            @endif
+                @endif
 
-            {{-- NIM --}}
-            <div>
+                {{-- NIM --}}
+                <div>
 
-                <label class="block text-sm font-semibold
+                    <label class="block text-sm font-semibold
                               text-gray-700 mb-2">
 
-                    ID
+                        ID
 
-                </label>
+                    </label>
 
-                <input type="text"
-                    name="id"
-                    value="{{ old('id', $dosen->id_dosen) }}"
-                    class="w-full rounded-xl border border-gray-200
+                    <input type="text" name="id" value="{{ old('id', $dosen->id_dosen) }}"
+                        class="w-full rounded-xl border border-gray-200
                               px-4 py-3 focus:outline-none
                               focus:ring-2 focus:ring-yellow-400">
 
-            </div>
+                </div>
 
-            {{-- NAMA --}}
-            <div>
+                {{-- NAMA --}}
+                <div>
 
-                <label class="block text-sm font-semibold
+                    <label class="block text-sm font-semibold
                               text-gray-700 mb-2">
 
-                    Nama
+                        Nama
 
-                </label>
+                    </label>
 
-                <input type="text"
-                    name="nama"
-                    value="{{ old('nama', $dosen->nama_dosen) }}"
-                    class="w-full rounded-xl border border-gray-200
+                    <input type="text" name="nama" value="{{ old('nama', $dosen->nama_dosen) }}"
+                        class="w-full rounded-xl border border-gray-200
                               px-4 py-3 focus:outline-none
                               focus:ring-2 focus:ring-yellow-400">
 
-            </div>
+                </div>
 
-            {{-- LABORATORIUM --}}
-            <div>
+                {{-- LABORATORIUM --}}
+                <div>
 
-                <label class="block text-sm font-semibold
+                    <label class="block text-sm font-semibold
                               text-gray-700 mb-2">
 
-                    Laboratorium
+                        Laboratorium
 
-                </label>
+                    </label>
 
-                <input type="text"
-                    name="laboratorium"
-                    value="{{ old('laboratorium', $dosen->lab ? $dosen->lab->nama_lab : '') }}"
-                    class="w-full rounded-xl border border-gray-200
+                    <input type="text" name="laboratorium"
+                        value="{{ old('laboratorium', $dosen->lab ? $dosen->lab->nama_lab : '') }}"
+                        class="w-full rounded-xl border border-gray-200
                               px-4 py-3 focus:outline-none
                               focus:ring-2 focus:ring-yellow-400">
 
-            </div>
+                </div>
 
-            {{-- PASSWORD --}}
-            <div>
+                {{-- PASSWORD --}}
+                <div>
 
-                <label class="block text-sm font-semibold
+                    <label class="block text-sm font-semibold
                               text-gray-700 mb-2">
 
-                    Password Baru
+                        Password Baru
 
-                </label>
+                    </label>
 
-                <input type="password"
-                    name="password"
-                    placeholder="Kosongkan jika tidak ingin mengubah password"
-                    class="w-full rounded-xl border border-gray-200
+                    <input type="password" name="password" placeholder="Kosongkan jika tidak ingin mengubah password"
+                        class="w-full rounded-xl border border-gray-200
                               px-4 py-3 focus:outline-none
                               focus:ring-2 focus:ring-yellow-400">
 
-            </div>
+                </div>
 
-            {{-- BUTTON --}}
-            <div class="flex justify-end gap-3 pt-4">
+                <div class="flex justify-end gap-3 pt-4">
 
-                <a href="{{ route('admin.manajemen_dosen.index') }}"
-                    class="px-5 py-3 rounded-xl bg-gray-100
+                    <a href="{{ route('admin.manajemen_dosen.penelitian', $dosen->id_dosen) }}"
+                        class="px-5 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-semibold">
+                        <i class="fa-solid fa-flask mr-2"></i>
+                        Kelola Penelitian
+                    </a>
+
+                    <a href="{{ route('admin.manajemen_dosen.skripsi', $dosen->id_dosen) }}"
+                        class="px-5 py-3 rounded-xl bg-green-500 hover:bg-green-600 text-white font-semibold">
+                        <i class="fa-solid fa-book mr-2"></i>
+                        Kelola Skripsi
+                    </a>
+
+                </div>
+
+                {{-- BUTTON --}}
+                <div class="flex justify-end gap-3 pt-4">
+
+                    <a href="{{ route('admin.manajemen_dosen.index') }}"
+                        class="px-5 py-3 rounded-xl bg-gray-100
                           hover:bg-gray-200 text-gray-700
                           font-semibold transition-colors">
 
-                    Batal
+                        Batal
 
-                </a>
+                    </a>
 
-                <button type="submit"
-                    class="px-5 py-3 rounded-xl bg-[#FFC107]
+                    <button type="submit"
+                        class="px-5 py-3 rounded-xl bg-[#FFC107]
                                hover:bg-yellow-500 text-white
                                font-semibold shadow-sm transition-colors">
 
-                    <i class="fa-solid fa-floppy-disk mr-2"></i>
-                    Simpan Perubahan
+                        <i class="fa-solid fa-floppy-disk mr-2"></i>
+                        Simpan Perubahan
 
-                </button>
+                    </button>
 
-            </div>
+                </div>
 
-        </form>
+            </form>
+
+
+        </div>
 
     </div>
-
-</div>
 
 @endsection

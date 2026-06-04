@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nim_mahasiswa');
             $table->string('topik');
             $table->text('deskripsi_ide');
-            $table->string('metode_pilihan'); // Bayes, SAW, CF, Forward, Backward
+            // $table->string('metode_pilihan'); // Bayes, SAW, CF, Forward, Backward
             $table->text('hasil_rekomendasi'); // Simpan nama dosen hasil olahan Word2Vec
             $table->timestamps();
 

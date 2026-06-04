@@ -39,7 +39,7 @@ Route::middleware('auth:mahasiswa,admin')->group(function () {
         // DETAIL DOSEN
         Route::get('/dosen/{id}', [MahasiswaController::class, 'detailDosen'])
             ->name('dosen.show');
-        
+
         // DETAIL HISTORY
         Route::get('/mahasiswa/history/{id}', [MahasiswaController::class, 'detailHistory'])
             ->name('mahasiswa.history.show');
@@ -61,6 +61,41 @@ Route::middleware('auth:mahasiswa,admin')->group(function () {
         Route::get('/profil', function () {
             return view('admin.profil');
         })->name('admin.profil');
+
+        // ================= DOSEN PENELITIAN =================
+
+        Route::get(
+            '/manajemen-dosen/{id}/penelitian',
+            [ManajemenDosenController::class, 'editPenelitian']
+        )->name('admin.manajemen_dosen.penelitian');
+
+        Route::post(
+            '/manajemen-dosen/{id}/penelitian',
+            [ManajemenDosenController::class, 'storePenelitian']
+        )->name('admin.manajemen_dosen.penelitian.store');
+
+        Route::delete(
+            '/manajemen-dosen/penelitian/{id_penelitian}',
+            [ManajemenDosenController::class, 'destroyPenelitian']
+        )->name('admin.manajemen_dosen.penelitian.destroy');
+
+
+        // ================= DOSEN SKRIPSI =================
+
+        Route::get(
+            '/manajemen-dosen/{id}/skripsi',
+            [ManajemenDosenController::class, 'editSkripsi']
+        )->name('admin.manajemen_dosen.skripsi');
+
+        Route::post(
+            '/manajemen-dosen/{id}/skripsi',
+            [ManajemenDosenController::class, 'storeSkripsi']
+        )->name('admin.manajemen_dosen.skripsi.store');
+
+        Route::delete(
+            '/manajemen-dosen/skripsi/{id_skripsi}',
+            [ManajemenDosenController::class, 'destroySkripsi']
+        )->name('admin.manajemen_dosen.skripsi.destroy');
     });
 
     // ================= AI Routes =================
