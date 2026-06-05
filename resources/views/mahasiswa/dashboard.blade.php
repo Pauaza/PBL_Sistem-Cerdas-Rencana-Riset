@@ -19,7 +19,6 @@ tailwind.config = {
 </script>
 
 <style>
-/* 🔥 BACKGROUND SAMA PERSIS LOGIN */
 .content-area {
     background: radial-gradient(circle at top right, #FEF3C7 0%, #F9FBFF 40%) !important;
 }
@@ -34,7 +33,7 @@ tailwind.config = {
 
 @section('content')
 
-<div class="w-full flex flex-col lg:flex-row items-center justify-between full-height px-6 lg:px-12 gap-10">
+<div class="flex flex-col lg:flex-row items-center justify-between full-height px-6 lg:px-12 gap-10">
 
     <!-- KIRI -->
    <div class="w-full lg:w-1/2 max-w-xl flex flex-col">

@@ -53,8 +53,8 @@ tailwind.config = {
         </p>
 
         <!-- FORM -->
-        <form action="{{ route('mahasiswa.hasil_rekomendasi') }}" method="POST"
-            class="mt-6 bg-white/80 backdrop-blur-md p-10 rounded-2xl shadow-md space-y-8">
+        <form id="formRekomendasi" action="{{ route('mahasiswa.hasil_rekomendasi') }}" method="POST"
+            class="mt-3 bg-white/80 backdrop-blur-md px-8 py-6 rounded-2xl shadow-md space-y-8">
 
             @csrf
 
@@ -86,7 +86,7 @@ tailwind.config = {
 
             <!-- BUTTON -->
             <div class="pt-2">
-                <button type="submit"
+                <button type="submit" id="btnSubmit"
                         class="px-6 py-3 rounded-full text-white font-semibold 
                         bg-gradient-to-r from-orange-400 to-orange-600 hover:scale-105 transition">
 
@@ -95,6 +95,85 @@ tailwind.config = {
             </div>
 
         </form>
+
+        <!-- LOADING -->
+        <div id="loadingBox"
+            style="
+                display:none;
+                position:fixed;
+                inset:0;
+                background:rgba(15,23,42,0.45);
+                backdrop-filter: blur(4px);
+                z-index:9999;
+                justify-content:center;
+                align-items:center;
+            ">
+
+            <div style="
+                background:white;
+                width:420px;
+                padding:40px;
+                border-radius:24px;
+                text-align:center;
+                box-shadow:0 15px 40px rgba(0,0,0,0.15);
+            ">
+
+                <!-- SPINNER -->
+                <div style="
+                    width:60px;
+                    height:60px;
+                    border:6px solid #FED7AA;
+                    border-top:6px solid #F97316;
+                    border-radius:50%;
+                    margin:auto;
+                    animation:spin 1s linear infinite;
+                "></div>
+
+                <!-- TITLE -->
+                <h2 style="
+                    margin-top:25px;
+                    font-size:22px;
+                    font-weight:700;
+                    color:#1F2937;
+                ">
+                    Menyiapkan Rekomendasi Skripsi
+                </h2>
+
+                <!-- DESC -->
+                <p style="
+                    margin-top:12px;
+                    color:#6B7280;
+                    font-size:15px;
+                    line-height:1.7;
+                ">
+                    Sistem sedang menganalisis topik dan deskripsi skripsi Anda
+                    untuk memberikan rekomendasi terbaik.
+                </p>
+
+            </div>
+        </div>
+
+        <style>
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        </style>
+
+        <script>
+        const form = document.getElementById("formRekomendasi");
+
+        form.addEventListener("submit", function() {
+
+            // tampilkan loading
+            document.getElementById("loadingBox").style.display = "flex";
+
+            // disable tombol
+            document.getElementById("btnSubmit").disabled = true;
+
+        });
+        </script>
 
     </div>
 

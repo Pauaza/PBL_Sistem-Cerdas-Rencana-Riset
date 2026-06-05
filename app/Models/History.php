@@ -13,7 +13,7 @@ class History extends Model
         'nim_mahasiswa',
         'topik',
         'deskripsi_ide',
-        'metode_pilihan',
+        // 'metode_pilihan',
         'hasil_rekomendasi'
     ];
 
