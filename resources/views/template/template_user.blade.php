@@ -31,7 +31,8 @@
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
-            overflow-x: hidden; /* Mencegah munculnya scroll horizontal saat animasi */
+            overflow-x: hidden;
+            /* Mencegah munculnya scroll horizontal saat animasi */
         }
 
         /* ─────────────────────────────
@@ -118,8 +119,13 @@
             font-size: 12px;
         }
 
-        .user-info .name { font-weight: bold; }
-        .user-info .id { color: #888; }
+        .user-info .name {
+            font-weight: bold;
+        }
+
+        .user-info .id {
+            color: #888;
+        }
 
         /* ─────────────────────────────
             MAIN AREA & KONTEN
@@ -129,7 +135,7 @@
             flex: 1;
             display: flex;
             min-height: 100vh;
-            transition: margin-left 0.3s ease; 
+            transition: margin-left 0.3s ease;
             /* HAPUS 'width: 100%;' di sini agar halaman tidak meluber ke kanan */
         }
 
@@ -140,23 +146,24 @@
         .content-area {
             flex: 1;
             padding: 40px 44px;
-            background: #FFFFFF; 
+            background: #FFFFFF;
         }
 
         /* ─────────────────────────────
             HISTORY PANEL (Kanan)
         ───────────────────────────── */
-       .history-panel {
+        .history-panel {
             width: 210px;
             min-width: 210px;
             flex-shrink: 0;
             background: var(--panel-bg);
             border-left: 1px solid #EDE8DF;
-            padding: 24px 16px; /* 👈 INI KUNCI UTAMANYA: Mengembalikan jarak kiri-kanan */
+            padding: 24px 16px;
+            /* 👈 INI KUNCI UTAMANYA: Mengembalikan jarak kiri-kanan */
             display: flex;
             flex-direction: column;
             transition: margin-right 0.3s ease, opacity 0.3s ease;
-            
+
             /* Tambahan agar panel selalu terlihat saat Anda men-scroll konten tengah */
             position: sticky;
             top: 0;
@@ -164,13 +171,15 @@
         }
 
         .history-panel.collapsed {
-            margin-right: -210px !important; 
+            margin-right: -210px !important;
             min-width: 0 !important;
-            padding: 0 !important; /* Hapus semua padding (atas, bawah, kiri, kanan) */
+            padding: 0 !important;
+            /* Hapus semua padding (atas, bawah, kiri, kanan) */
             margin: 0 !important;
             opacity: 0 !important;
             border: none !important;
-            overflow: hidden !important; /* KUNCI UTAMA: Memaksa isi panel ikut terlipat */
+            overflow: hidden !important;
+            /* KUNCI UTAMA: Memaksa isi panel ikut terlipat */
         }
 
         /* ─────────────────────────────
@@ -197,7 +206,7 @@
 
         /* PENAMBAHAN BARU: Memindahkan tombol ke dinding saat ditutup */
         .toggle-sidebar.collapsed {
-            left: 0; 
+            left: 0;
         }
 
         .toggle-history {
@@ -223,7 +232,6 @@
         .toggle-history.collapsed {
             right: 0;
         }
-
     </style>
     @stack('styles')
 </head>
@@ -237,14 +245,14 @@
         </div>
 
         <nav class="nav-group">
-            <a href="{{ route('mahasiswa.dashboard') }}" 
-               class="nav-item {{ request()->routeIs('mahasiswa.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('mahasiswa.dashboard') }}"
+                class="nav-item {{ request()->routeIs('mahasiswa.dashboard') ? 'active' : '' }}">
                 <i class="fa-solid fa-house"></i>
                 <span>Beranda</span>
             </a>
 
             <a href="{{ route('mahasiswa.rekomendasi') }}"
-                class="nav-item {{ request()->routeIs('mahasiswa.rekomendasi') || request()->routeIs('mahasiswa.hasil_rekomendasi') || request()->routeIs('dosen.show')? 'active' : '' }}">
+                class="nav-item {{ request()->routeIs('mahasiswa.rekomendasi') || request()->routeIs('mahasiswa.hasil_rekomendasi') || request()->routeIs('dosen.show') ? 'active' : '' }}">
                 <i class="fa-solid fa-lightbulb"></i>
                 <span>Rekomendasi</span>
             </a>
@@ -258,8 +266,7 @@
                 <span class="name">{{ Auth::user()->name ?? 'Mahasiswa' }}</span>
                 <span class="id">{{ Auth::user()->username ?? '12345678' }}</span>
             </div>
-            <button onclick="toggleDropdown()"
-                style="margin-left: auto; cursor: pointer;"
+            <button onclick="toggleDropdown()" style="margin-left: auto; cursor: pointer;"
                 class="w-9 h-9 rounded-lg hover:bg-gray-100 transition flex items-center justify-center">
 
                 <i class="fa-solid fa-gear text-gray-600"></i>
@@ -324,7 +331,7 @@
         <button class="toggle-history" id="toggleHistory">
             <i class="fa-solid fa-chevron-right"></i>
         </button>
-        
+
         {{-- HISTORY PANEL (Kanan) --}}
         <aside class="history-panel flex flex-col overflow-hidden">
             {{-- Header Sidebar Kanan --}}
@@ -336,23 +343,25 @@
 
             {{-- List Histori (Scrollable) --}}
             <div class="history-list flex-1 overflow-y-auto pr-1 pb-20 space-y-3 custom-scrollbar">
-                @if(isset($histories) && $histories->count() > 0)
-                    @foreach($histories as $item)
-                        <button type="button" 
-                                onclick="window.openHistoryModal({{ $item->id }})"
-                                class="group relative w-full text-left bg-white p-3 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col gap-1.5">
-                            
+                @if (isset($histories) && $histories->count() > 0)
+                    @foreach ($histories as $item)
+                        <button type="button" onclick="window.openHistoryModal({{ $item->id }})"
+                            class="group relative w-full text-left bg-white p-3 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col gap-1.5">
+
                             {{-- Aksen Garis Kiri saat Hover --}}
-                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div
+                                class="absolute left-0 top-0 bottom-0 w-1 bg-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
 
                             {{-- Judul Topik --}}
-                            <span class="text-xs font-semibold text-gray-700 group-hover:text-orange-600 line-clamp-2 leading-snug">
+                            <span
+                                class="text-xs font-semibold text-gray-700 group-hover:text-orange-600 line-clamp-2 leading-snug">
                                 {{ $item->topik }}
                             </span>
-                            
+
                             {{-- Tanggal / Waktu --}}
                             <span class="text-[10px] text-gray-400 font-medium flex items-center gap-1.5 mt-1">
-                                <i class="fa-regular fa-calendar-days"></i> 
+                                <i class="fa-regular fa-calendar-days"></i>
                                 {{ $item->created_at ? $item->created_at->format('d M Y') : 'Baru saja' }}
                             </span>
                         </button>
@@ -366,178 +375,216 @@
             </div>
         </aside>
 
-    {{-- MODAL CONTAINER UNTUK HISTORY --}}
-    @if(isset($histories) && $histories->count() > 0)
-        @foreach($histories as $item)
-            <div id="modal-history-{{ $item->id }}" 
-                class="hidden fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-[9999] flex items-center justify-center p-4 transition-all duration-300">
-                
-                {{-- Card Box Modal --}}
-                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col overflow-hidden relative border border-gray-100 text-left scale-95 transition-transform duration-300">
-                    
-                    {{-- Tombol Tutup (X) di Sudut Atas --}}
-                    <button onclick="closeHistoryModal({{ $item->id }})" 
+        {{-- MODAL CONTAINER UNTUK HISTORY --}}
+        @if (isset($histories) && $histories->count() > 0)
+            @foreach ($histories as $item)
+                <div id="modal-history-{{ $item->id }}"
+                    class="hidden fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-[9999] flex items-center justify-center p-4 transition-all duration-300">
+
+                    {{-- Card Box Modal --}}
+                    <div
+                        class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col overflow-hidden relative border border-gray-100 text-left scale-95 transition-transform duration-300">
+
+                        {{-- Tombol Tutup (X) di Sudut Atas --}}
+                        <button onclick="closeHistoryModal({{ $item->id }})"
                             class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 hover:text-gray-600 transition duration-200 z-50">
-                        <i class="fa-solid fa-xmark text-sm"></i>
-                    </button>
-
-                    {{-- Bagian Kepala Modal (Header) --}}
-                    <div class="p-6 border-b border-gray-100 bg-slate-50/60 pr-12">
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 mb-2">
-                            <i class="fa-solid fa-clock-rotate-left mr-1.5"></i>
-                            {{ $item->created_at ? $item->created_at->format('d M Y, H:i') : 'Baru saja' }}
-                        </span>
-                        <h3 class="text-base font-bold text-gray-900 leading-snug">
-                            {{ $item->topik }}
-                        </h3>
-                    </div>
-
-                    {{-- Bagian Isi Modal (Scrollable Content) --}}
-                    <div class="p-6 overflow-y-auto space-y-5 flex-1 max-h-[calc(85vh-140px)]">
-                        
-                        {{-- Deskripsi Ide --}}
-                        <div>
-                            <h4 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Deskripsi Ide Penelitian</h4>
-                            <div class="bg-slate-50 border border-gray-200/50 p-4 rounded-xl text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
-                                {!! nl2br(e($item->deskripsi_ide)) !!}
-                            </div>
-                        </div>
-
-                        {{-- Baris Grid Hasil API --}}
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            
-                            {{-- Blok Hasil Rekomendasi Judul --}}
-                            <div class="space-y-2">
-                                <h4 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
-                                    <i class="fa-solid fa-book text-[#FFC107]"></i> Rekomendasi Judul
-                                </h4>
-                                @php $judulArr = $item->hasil_rekomendasi['judul'] ?? []; @endphp
-                                @if(count($judulArr) > 0)
-                                    <div class="space-y-1.5">
-                                        @foreach($judulArr as $judul)
-                                            <div class="p-3 bg-amber-50/40 border border-amber-100/60 rounded-xl text-xs text-gray-800 font-medium leading-normal shadow-2xs">
-                                                {{ $judul }}
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <p class="text-xs text-gray-400 italic p-1">Tidak ada rekomendasi judul.</p>
-                                @endif
-                            </div>
-
-                            {{-- Blok Hasil Rekomendasi Dosen --}}
-                            <div class="space-y-2">
-                                <h4 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
-                                    <i class="fa-solid fa-chalkboard-user text-[#FFC107]"></i> Rekomendasi Dosen
-                                </h4>
-                                @php $dosenArr = $item->hasil_rekomendasi['dosen'] ?? []; @endphp
-                                @if(count($dosenArr) > 0)
-                                    <div class="space-y-1.5">
-                                        @foreach($dosenArr as $dosen)
-                                            <div class="p-3 border border-gray-200/60 rounded-xl bg-white shadow-2xs flex flex-col gap-0.5">
-                                                <span class="font-bold text-xs text-gray-800">{{ $dosen['nama'] ?? 'Nama Dosen' }}</span>
-                                                <span class="text-[10px] text-gray-400 font-medium">
-                                                    Keahlian/Skor: {{ $dosen['keahlian'] ?? ($dosen['skor'] ?? '-') }}
-                                                </span>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <p class="text-xs text-gray-400 italic p-1">Tidak ada rekomendasi dosen.</p>
-                                @endif
-                            </div>
-
-                        </div>
-                    </div>
-
-                    {{-- Bagian Kaki Modal (Footer) --}}
-                    <div class="p-4 border-t border-gray-100 bg-slate-50 flex justify-end">
-                        <button onclick="closeHistoryModal({{ $item->id }})" 
-                                class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl text-xs font-semibold transition duration-200 cursor-pointer">
-                            Tutup
+                            <i class="fa-solid fa-xmark text-sm"></i>
                         </button>
+
+                        {{-- Bagian Kepala Modal (Header) --}}
+                        <div class="p-6 border-b border-gray-100 bg-slate-50/60 pr-12">
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 mb-2">
+                                <i class="fa-solid fa-clock-rotate-left mr-1.5"></i>
+                                {{ $item->created_at ? $item->created_at->format('d M Y, H:i') : 'Baru saja' }}
+                            </span>
+                            <h3 class="text-base font-bold text-gray-900 leading-snug">
+                                {{ $item->topik }}
+                            </h3>
+                        </div>
+
+                        {{-- Bagian Isi Modal (Scrollable Content) --}}
+                        <div class="p-6 overflow-y-auto space-y-5 flex-1 max-h-[calc(85vh-140px)]">
+
+                            {{-- 🔥 AMANKAN DATA DARI CASTING ARRAY DI SINI (MUTLAK) --}}
+                            @php
+                                $rawRekomendasi = $item->hasil_rekomendasi;
+
+                                // Proteksi jika data tertulis ganda sebagai string teks akibat cache lama
+                                if (is_string($rawRekomendasi)) {
+                                    $rawRekomendasi = json_decode($rawRekomendasi, true);
+                                }
+
+                                // Ekstraksi data secara presisi sesuai logika MahasiswaController
+                                $listJudul = $rawRekomendasi['judul'] ?? [];
+
+                                // Menangani pembacaan baik key baru (dosenArr) maupun key fallback (dosen)
+                                $listDosen = $rawRekomendasi['dosenArr'] ?? ($rawRekomendasi['dosen'] ?? []);
+                            @endphp
+
+                            {{-- Deskripsi Ide --}}
+                            <div>
+                                <h4 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">
+                                    Deskripsi Ide Penelitian
+                                </h4>
+                                <div
+                                    class="bg-slate-50 border border-gray-200/50 p-4 rounded-xl text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+                                    {!! nl2br(e($item->deskripsi_ide)) !!}
+                                </div>
+                            </div>
+
+                            {{-- Baris Grid Hasil API --}}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                                {{-- Kolom Kiri: Hasil Rekomendasi Judul --}}
+                                <div class="space-y-2">
+                                    <h4
+                                        class="text-[11px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
+                                        <i class="fa-solid fa-book text-[#FFC107]"></i> Rekomendasi Judul
+                                    </h4>
+
+                                    @if (count($listJudul) > 0)
+                                        <div class="space-y-1.5">
+                                            @foreach ($listJudul as $judul)
+                                                <div
+                                                    class="p-3 bg-amber-50/40 border border-amber-100/60 rounded-xl text-xs text-gray-800 font-medium leading-normal shadow-2xs">
+                                                    {{ $judul }}
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <p class="text-xs text-gray-400 italic p-1">Tidak ada rekomendasi judul.</p>
+                                    @endif
+                                </div>
+
+                                {{-- Kolom Kanan: Hasil Rekomendasi Dosen --}}
+                                <div class="space-y-2">
+                                    <h4
+                                        class="text-[11px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
+                                        <i class="fa-solid fa-chalkboard-user text-[#FFC107]"></i> Rekomendasi Dosen
+                                    </h4>
+
+                                    {{-- 🔥 PERUBAHAN UTAMA: Membaca variabel $listDosen hasil parsing global di atas --}}
+                                    @if (count($listDosen) > 0)
+                                        <div class="space-y-1.5">
+                                            @foreach ($listDosen as $dsn)
+                                                <div
+                                                    class="p-3 border border-gray-200/60 rounded-xl bg-white shadow-2xs flex items-center justify-between gap-2">
+                                                    <div class="flex flex-col gap-0.5">
+                                                        <span class="font-bold text-xs text-gray-800">
+                                                            {{-- Support multi-key parsing data lama/baru --}}
+                                                            {{ $dsn['nama_dosen'] ?? ($dsn['nama'] ?? ($dsn['Nama_Dosen'] ?? 'Nama Dosen')) }}
+                                                        </span>
+                                                        <span class="text-[10px] text-gray-400 font-medium">
+                                                            <i class="fa-solid fa-id-card mr-1"></i> ID Dosen:
+                                                            {{ $dsn['id_dosen'] ?? ($dsn['Id_Dosen'] ?? '-') }}
+                                                        </span>
+                                                    </div>
+
+                                                    <div
+                                                        class="bg-amber-100 text-amber-900 font-bold text-[11px] px-2 py-1 rounded-md shrink-0">
+                                                        {{ $dsn['persentase'] ?? ($dsn['Persentase'] ?? ($dsn['Skor_AS'] ?? '0')) }}%
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <p class="text-xs text-gray-400 italic p-1">Tidak ada rekomendasi dosen.</p>
+                                    @endif
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {{-- Bagian Kaki Modal (Footer) --}}
+                        <div class="p-4 border-t border-gray-100 bg-slate-50 flex justify-end">
+                            <button onclick="closeHistoryModal({{ $item->id }})"
+                                class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl text-xs font-semibold transition duration-200 cursor-pointer">
+                                Tutup
+                            </button>
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
-        @endforeach
-    @endif
-    
-    @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sidebar = document.querySelector('.sidebar');
-            const historyPanel = document.querySelector('.history-panel');
-            const mainWrapper = document.querySelector('.main-wrapper');
-            
-            const toggleSidebar = document.getElementById('toggleSidebar');
-            const toggleHistory = document.getElementById('toggleHistory');
+            @endforeach
+        @endif
 
-            // SIDEBAR TOGGLE
-            // TOGGLE KIRI
-            toggleSidebar.addEventListener('click', () => {
-                sidebar.classList.toggle('collapsed');
-                mainWrapper.classList.toggle('full'); // Menyesuaikan margin konten
-                toggleSidebar.classList.toggle('collapsed'); // Memindahkan tombol
-                
-                const icon = toggleSidebar.querySelector('i');
-                icon.classList.toggle('fa-chevron-left');
-                icon.classList.toggle('fa-chevron-right');
-            });
+        @push('scripts')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const sidebar = document.querySelector('.sidebar');
+                    const historyPanel = document.querySelector('.history-panel');
+                    const mainWrapper = document.querySelector('.main-wrapper');
 
-            // TOGGLE KANAN
-            toggleHistory.addEventListener('click', () => {
-                historyPanel.classList.toggle('collapsed'); // Menyusutkan sidebar kanan
-                toggleHistory.classList.toggle('collapsed'); // Memindahkan tombol
-                
-                toggleHistory.style.right = '';
+                    const toggleSidebar = document.getElementById('toggleSidebar');
+                    const toggleHistory = document.getElementById('toggleHistory');
 
-                const icon = toggleHistory.querySelector('i');
-                icon.classList.toggle('fa-chevron-right');
-                icon.classList.toggle('fa-chevron-left');
-            });
-        });
+                    // SIDEBAR TOGGLE
+                    // TOGGLE KIRI
+                    toggleSidebar.addEventListener('click', () => {
+                        sidebar.classList.toggle('collapsed');
+                        mainWrapper.classList.toggle('full'); // Menyesuaikan margin konten
+                        toggleSidebar.classList.toggle('collapsed'); // Memindahkan tombol
 
-            // FUNGSI UNTUK MEMBUKA MODAL HISTORI
-            function openHistoryModal(id) {
-                const modal = document.getElementById(`modal-history-${id}`);
-                if (modal) {
-                    modal.classList.remove('hidden');
-                    // Kunci scrolling pada halaman utama saat modal terbuka
-                    document.body.style.overflow = 'hidden'; 
-                    
-                    // Animasi pop-up terasa lebih halus
-                    setTimeout(() => {
-                        modal.firstElementChild.classList.remove('scale-95');
-                        modal.firstElementChild.classList.add('scale-100');
-                    }, 10);
+                        const icon = toggleSidebar.querySelector('i');
+                        icon.classList.toggle('fa-chevron-left');
+                        icon.classList.toggle('fa-chevron-right');
+                    });
+
+                    // TOGGLE KANAN
+                    toggleHistory.addEventListener('click', () => {
+                        historyPanel.classList.toggle('collapsed'); // Menyusutkan sidebar kanan
+                        toggleHistory.classList.toggle('collapsed'); // Memindahkan tombol
+
+                        toggleHistory.style.right = '';
+
+                        const icon = toggleHistory.querySelector('i');
+                        icon.classList.toggle('fa-chevron-right');
+                        icon.classList.toggle('fa-chevron-left');
+                    });
+                });
+
+                // FUNGSI UNTUK MEMBUKA MODAL HISTORI
+                function openHistoryModal(id) {
+                    const modal = document.getElementById(`modal-history-${id}`);
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                        // Kunci scrolling pada halaman utama saat modal terbuka
+                        document.body.style.overflow = 'hidden';
+
+                        // Animasi pop-up terasa lebih halus
+                        setTimeout(() => {
+                            modal.firstElementChild.classList.remove('scale-95');
+                            modal.firstElementChild.classList.add('scale-100');
+                        }, 10);
+                    }
                 }
-            }
 
-            // FUNGSI UNTUK MENUTUP MODAL HISTORI
-            function closeHistoryModal(id) {
-                const modal = document.getElementById(`modal-history-${id}`);
-                if (modal) {
-                    modal.firstElementChild.classList.remove('scale-100');
-                    modal.firstElementChild.classList.add('scale-95');
-                    
-                    setTimeout(() => {
-                        modal.classList.add('hidden');
-                        // Kembalikan scrolling halaman utama
-                        document.body.style.overflow = ''; 
-                    }, 150);
-                }
-            }
+                // FUNGSI UNTUK MENUTUP MODAL HISTORI
+                function closeHistoryModal(id) {
+                    const modal = document.getElementById(`modal-history-${id}`);
+                    if (modal) {
+                        modal.firstElementChild.classList.remove('scale-100');
+                        modal.firstElementChild.classList.add('scale-95');
 
-            // Klik area luar modal kartu otomatis akan menutup modal
-            document.addEventListener('click', function(event) {
-                if (event.target.id.startsWith('modal-history-')) {
-                    const id = event.target.id.replace('modal-history-', '');
-                    closeHistoryModal(id);
+                        setTimeout(() => {
+                            modal.classList.add('hidden');
+                            // Kembalikan scrolling halaman utama
+                            document.body.style.overflow = '';
+                        }, 150);
+                    }
                 }
-            });
-    </script>
-    @endpush
-    @stack('scripts')
+
+                // Klik area luar modal kartu otomatis akan menutup modal
+                document.addEventListener('click', function(event) {
+                    if (event.target.id.startsWith('modal-history-')) {
+                        const id = event.target.id.replace('modal-history-', '');
+                        closeHistoryModal(id);
+                    }
+                });
+            </script>
+        @endpush
+        @stack('scripts')
 </body>
+
 </html>

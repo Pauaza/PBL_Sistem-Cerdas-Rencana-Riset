@@ -39,7 +39,7 @@ Route::middleware('auth:mahasiswa,admin')->group(function () {
 
         // DETAIL DOSEN
         Route::get('/dosen/{id}', [MahasiswaController::class, 'detailDosen'])
-            ->name('dosen.show');
+            ->name('mahasiswa.detail_dosen');
 
         // DETAIL HISTORY
         Route::get('/mahasiswa/history/{id}', [MahasiswaController::class, 'detailHistory'])
