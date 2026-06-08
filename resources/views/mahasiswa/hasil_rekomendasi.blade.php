@@ -133,9 +133,7 @@
 
             <div class="flex gap-4 mt-12">
 
-                <button class="px-6 py-3 rounded-full bg-gray-700 text-white">
-                    Download Rekomendasi
-                </button>
+
 
                 <a href="{{ route('mahasiswa.rekomendasi') }}"
                     class="px-6 py-3 rounded-full text-white font-semibold 

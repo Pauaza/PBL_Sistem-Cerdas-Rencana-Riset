@@ -7,7 +7,7 @@ from sentence_transformers import SentenceTransformer, util
 app = FastAPI()
 
 # ⚠️ Ganti dengan API Key valid milikmu dari Google AI Studio
-GENAI_API_KEY = "MASUKKAN API ANDA DI SINI"
+GENAI_API_KEY = "MASUKKAN_API_KEY_MU_DISINI"
 genai.configure(api_key=GENAI_API_KEY)
 
 # Inisialisasi model SBERT sekali saja saat aplikasi start up agar hemat memori
