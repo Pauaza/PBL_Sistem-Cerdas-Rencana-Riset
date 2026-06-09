@@ -7,7 +7,14 @@ from sentence_transformers import SentenceTransformer, util
 app = FastAPI()
 
 # ⚠️ Ganti dengan API Key valid milikmu dari Google AI Studio
-GENAI_API_KEY = "MASUKKAN_API_KEY_MU_DISINI"
+import os
+
+# Mengambil API Key dari sistem environment (Railway / .env lokal)
+GENAI_API_KEY = os.getenv("GENAI_API_KEY")
+
+if not GENAI_API_KEY:
+    raise ValueError("GENAI_API_KEY belum disetting di Environment Variables!")
+
 genai.configure(api_key=GENAI_API_KEY)
 
 # Inisialisasi model SBERT sekali saja saat aplikasi start up agar hemat memori

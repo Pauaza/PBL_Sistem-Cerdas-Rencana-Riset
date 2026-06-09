@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 1. Jalankan FastAPI (Python) di background pada port 8000 lokal
-/opt/venv/bin/uvicorn app:app --host 127.0.0.1 --port 8000 &
+/opt/venv/bin/uvicorn app:app --host 127.0.0.1 --port 8001 &
 
 # 2. Paksa Apache untuk mendengarkan Port dinamis dari Railway ($PORT)
 sed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf
