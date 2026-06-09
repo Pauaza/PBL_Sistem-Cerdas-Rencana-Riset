@@ -1,22 +1,49 @@
-# Menggunakan image dasar yang punya PHP dan Apache
-FROM webdevops/php-apache:8.2
+# 1. Gunakan image dasar PHP resmi dengan Apache
+FROM php:8.4-apache
 
-# Install Python dan pip
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
+# 2. Install dependencies sistem, Python 3, dan virtual environment
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    git \
+    curl \
+    python3 \
+    python3-pip \
+    python3-venv \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set up virtual environment untuk Python
+# 3. Aktifkan modul mod_rewrite bawaan Apache untuk routing Laravel
+RUN a2enmod rewrite
+
+# 4. Arahkan DocumentRoot Apache langsung ke folder /public milik Laravel
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# 5. Install Composer terbaru secara otomatis
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# 6. Set folder kerja di dalam container
+WORKDIR /var/www/html
+
+# 7. Salin semua file proyek ke dalam container
+COPY . .
+
+# 8. Setup Python Virtual Environment & Install paket dari requirements.txt
 RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+RUN /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
 
-# Copy semua file ke dalam server
-COPY . /app
-WORKDIR /app
+# 9. Install PHP dependencies via Composer
+RUN composer install --no-dev --optimize-autoloader
 
-# Install dependency Python
-RUN pip install -r requirements.txt
+# 10. Atur hak akses folder storage dan cache Laravel agar tidak Error 500
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Install dependency PHP/Laravel
-RUN composer install
+# 11. Berikan izin eksekusi untuk script start.sh
+RUN chmod +x start.sh
 
-# Expose port
-EXPOSE 80
+# 12. Eksekusi script peluncur saat container dinyalakan
+CMD ["./start.sh"]
