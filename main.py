@@ -8,6 +8,7 @@ app = FastAPI()
 
 # ⚠️ Ganti dengan API Key valid milikmu dari Google AI Studio
 import os
+os.environ["OMP_NUM_THREADS"] = "1" # Memaksa PyTorch hanya pakai 1 jalur memori
 
 # Mengambil API Key dari sistem environment (Railway / .env lokal)
 GENAI_API_KEY = os.getenv("GENAI_API_KEY")
@@ -18,7 +19,7 @@ if not GENAI_API_KEY:
 genai.configure(api_key=GENAI_API_KEY)
 
 # Inisialisasi model SBERT sekali saja saat aplikasi start up agar hemat memori
-sbert_model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+sbert_model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # --- DATA MODEL FOR PYDANTIC ---
 class TitleRequest(BaseModel):
