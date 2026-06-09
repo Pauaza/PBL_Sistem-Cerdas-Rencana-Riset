@@ -8,11 +8,20 @@ use App\Http\Controllers\admin\ManajemenMhsController;
 use App\Http\Controllers\AI\TitleGeneratorController;
 use App\Http\Controllers\admin\DashboardController;
 
-
-// Perbaikan Typo: Route::get (bukan Route: :get)
+// Rute untuk Landing Page (Ini yang benar dan cukup 1 saja)
 Route::get('/', function () {
-    return view('auth.login');
+    return view('landingpage'); 
 });
+
+// Biarkan rute dashboard dan halaman testing welcome Anda tetap seperti semula
+Route::get('/dashboard', function () {
+    return view('welcome'); // atau view dashboard Anda
+})->name('dashboard');
+
+// // Perbaikan Typo: Route::get (bukan Route: :get)
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
 
 // --- Login Routes ---
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
