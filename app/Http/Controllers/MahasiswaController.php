@@ -57,7 +57,7 @@ class MahasiswaController extends Controller
         }
 
         // 2. Ambil Nilai Skor Semantik SBERT
-        $responseSBERT = Http::timeout(60)->post(env('AI_SERVICE_URL') . '/calculate-similarity', [
+        $responseSBERT = Http::post('AQ.Ab8RN6KHM3tyjpfclRZ8zA1bCTdYj-NQDBnA0Df5nOVMV87Ibw' . '/calculate-similarity', [
             'deskripsi_mahasiswa' => $deskripsi,
             'korpus_penelitian' => $korpusPenelitian,
             'korpus_skripsi' => $korpusSkripsi

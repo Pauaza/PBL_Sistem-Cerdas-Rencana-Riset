@@ -34,10 +34,6 @@ class AppServiceProvider extends ServiceProvider
                     ->take(10)
                     ->get();
 
-                if (config('app.env') === 'production') {
-                    URL::forceScheme('https');
-                }
-
                 $view->with('histories', $histories);
             }
         });
