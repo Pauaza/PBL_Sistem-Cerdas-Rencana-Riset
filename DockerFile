@@ -37,6 +37,9 @@ RUN python3 -m venv /opt/venv
 RUN /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
 
 # 9. Install PHP dependencies via Composer
+# Paksa Laravel pakai mode file agar tidak mencari tabel database saat proses build
+ENV CACHE_STORE=file
+ENV CACHE_DRIVER=file
 RUN composer install --no-dev --optimize-autoloader
 
 # 10. Atur hak akses folder storage dan cache Laravel agar tidak Error 500
