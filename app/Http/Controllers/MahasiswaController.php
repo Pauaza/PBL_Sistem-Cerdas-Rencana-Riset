@@ -57,7 +57,7 @@ class MahasiswaController extends Controller
         }
 
         // 2. Ambil Nilai Skor Semantik SBERT
-        $responseSBERT = Http::post('AQ.Ab8RN6KHM3tyjpfclRZ8zA1bCTdYj-NQDBnA0Df5nOVMV87Ibw' . '/calculate-similarity', [
+        $responseSBERT = Http::timeout(60)->post('http://127.0.0.1:8001/api/calculate-similarity', [
             'deskripsi_mahasiswa' => $deskripsi,
             'korpus_penelitian' => $korpusPenelitian,
             'korpus_skripsi' => $korpusSkripsi
@@ -108,7 +108,7 @@ class MahasiswaController extends Controller
         $top3Dosen = array_slice($rekomendasiDosen, 0, 3);
 
         // --- 5. GENERATE JUDUL GEMINI (Gunakan objek penampung $responseJudul yang tepat) ---
-        $responseJudul = Http::post(env('AI_SERVICE_URL') . '/generate-titles', [
+        $responseJudul = Http::timeout(60)->post('http://127.0.0.1:8001/api/generate-titles', [
             'topik' => $request->topik,
             'deskripsi' => $request->deskripsi,
         ]);

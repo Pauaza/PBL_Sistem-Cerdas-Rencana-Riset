@@ -23,9 +23,9 @@ class TitleGeneratorController extends Controller
             'deskripsi' => 'required|string',
         ]);
 
-       
+
         // Tembak API Python FastAPI yang berjalan di port 8001
-        $response = Http::post('AQ.Ab8RN6KHM3tyjpfclRZ8zA1bCTdYj-NQDBnA0Df5nOVMV87Ibw' . '/generate-titles', [
+        $response = Http::timeout(60)->post('http://127.0.0.1:8001/api/generate-titles', [
             'topik' => $request->topik,
             'deskripsi' => $request->deskripsi,
         ]);

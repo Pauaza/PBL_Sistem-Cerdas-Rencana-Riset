@@ -11,12 +11,7 @@ app = FastAPI()
 
 
 # Mengambil API Key dari sistem environment (Railway / .env lokal)
-GENAI_API_KEY = 'AQ.Ab8RN6KHM3tyjpfclRZ8zA1bCTdYj-NQDBnA0Df5nOVMV87Ibw'
-
-if not GENAI_API_KEY:
-    raise ValueError("GENAI_API_KEY belum disetting di Environment Variables!")
-
-genai.configure(api_key=os.getenv("GENAI_API_KEY"))
+genai.configure(api_key='AQ.Ab8RN6KHM3tyjpfclRZ8zA1bCTdYj-NQDBnA0Df5nOVMV87Ibw')
 
 # Inisialisasi model SBERT sekali saja saat aplikasi start up agar hemat memori
 sbert_model = SentenceTransformer('symanto/sn-xlm-roberta-base-snli-mnli-anli-xnli')
