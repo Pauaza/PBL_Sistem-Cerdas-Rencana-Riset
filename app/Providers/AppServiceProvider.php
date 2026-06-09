@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,9 +30,13 @@ class AppServiceProvider extends ServiceProvider
                 // Ambil 10 histori terbaru langsung lewat relasi
                 /** @var \App\Models\Mahasiswa $mahasiswa */
                 $histories = $mahasiswa->histories()
-                                     ->latest('created_at')
-                                     ->take(10)
-                                     ->get();
+                    ->latest('created_at')
+                    ->take(10)
+                    ->get();
+
+                if (config('app.env') === 'production') {
+                    URL::forceScheme('https');
+                }
 
                 $view->with('histories', $histories);
             }

@@ -24,7 +24,8 @@ class TitleGeneratorController extends Controller
         ]);
 
         // Tembak API Python FastAPI yang berjalan di port 8001
-        $response = Http::post(env('AI_SERVICE_URL') . '/generate-titles', [
+        // Tembak API Python FastAPI yang berjalan di port 8001
+        $response = Http::timeout(60)->post(env('AI_SERVICE_URL') . '/generate-titles', [
             'topik' => $request->topik,
             'deskripsi' => $request->deskripsi,
         ]);
