@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 # Install ekstensi database untuk Laravel
 RUN docker-php-ext-install pdo pdo_mysql
+RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/memory-limit.ini
 
 # 3. Aktifkan modul mod_rewrite bawaan Apache untuk routing Laravel
 RUN a2enmod rewrite
