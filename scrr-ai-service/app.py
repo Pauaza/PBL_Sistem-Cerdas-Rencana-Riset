@@ -11,7 +11,7 @@ GENAI_API_KEY = "MASUKKAN_API_KEY_MU_DISINI"
 genai.configure(api_key=GENAI_API_KEY)
 
 # Inisialisasi model SBERT sekali saja saat aplikasi start up agar hemat memori
-sbert_model = SentenceTransformer('symanto/sn-xlm-roberta-base-snli-mnli-anli-xnli')
+sbert_model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
 
 # --- DATA MODEL FOR PYDANTIC ---
 class TitleRequest(BaseModel):
