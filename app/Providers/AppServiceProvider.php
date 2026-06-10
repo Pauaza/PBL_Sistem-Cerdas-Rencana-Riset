@@ -22,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (env('APP_ENV') !== 'local' || request()->header('x-forwarded-proto') === 'https') {
+        URL::forceScheme('https');
+        }
+        
         View::composer('template.template_user', function ($view) {
             // Jika Anda pakai guard khusus, misal: Auth::guard('mahasiswa')->check()
             if (Auth::guard('mahasiswa')->check()) {
