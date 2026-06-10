@@ -81,7 +81,11 @@ tailwind.config = {
                           class="w-full px-5 py-4 rounded-xl bg-white border border-gray-200 
                                  h-44 focus:outline-none focus:ring-2 focus:ring-orange-400"
                           placeholder="Jelaskan ide skripsi kamu..."
+                          
                           required></textarea>
+                <small class="text-muted d-block mt-1" style="font-size: 0.85em; color: #6c757d;">
+                    * <strong>Panduan:</strong> Tuliskan minimal 5 kata (maks. 25 kata). Ceritakan dengan singkat mengenai <b>masalah</b>, <b>metode/teknologi</b>, dan <b>objek penelitian</b> yang anda ingin gunakan untuk hasil rekomendasi yang akurat.
+                </small>
             </div>
 
             <!-- BUTTON -->
