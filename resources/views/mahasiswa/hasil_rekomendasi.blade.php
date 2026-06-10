@@ -47,9 +47,9 @@
         $topikSafe = $topik ?? 'Sistem Informasi';
     @endphp
 
-    <div class="full-height px-12 pt-2 pb-10 font-sans">
+    <div class="full-height px-12 pt-0 pb-10 font-sans flex justify-center items-start">
 
-        <div class="max-w-6xl mx-auto">
+        <div class="w-full max-w-3xl">
 
             <h1 class="text-4xl font-bold text-gray-800">
                 Hasil Rekomendasi
